@@ -1,4 +1,7 @@
 import os
+import random
+
+import numpy as np
 import pandas as pd
 from evidently import ColumnMapping
 from evidently.metric_preset import DataDriftPreset
@@ -18,6 +21,43 @@ def print_feature_info():
     print(f"Number of duplicated rows: {duplicates}")
 
     print("\nData types:\n", X.dtypes)
+
+
+SIZE_CONSTANT = 10000
+'''
+# Antal syntetiska datapunkter du vill generera
+num_samples = 100 * SIZE_CONSTANT
+
+# Funktioner och deras respektive intervall eller distributioner
+synthetic_data = {
+    'income': [random.uniform(20000, 100000) for _ in range(num_samples)],
+    'name_email_similarity': [random.uniform(0, 1) for _ in range(num_samples)],
+    'prev_address_months_count': [random.randint(0, 120) for _ in range(num_samples)],
+    'current_address_months_count': [random.randint(0, 120) for _ in range(num_samples)],
+    'customer_age': [random.randint(18, 90) for _ in range(num_samples)],
+    'days_since_request': [random.randint(0, 365) for _ in range(num_samples)],
+    'intended_balcon_amount': [random.uniform(1000, 50000) for _ in range(num_samples)],
+    'zip_count_4w': [random.randint(0, 100) for _ in range(num_samples)],
+    'fraud_bool': [random.choice([0, 1]) for _ in range(num_samples)]
+}
+
+# Skapa en DataFrame
+fraud_data = pd.DataFrame(synthetic_data).head(20  * SIZE_CONSTANT)
+fraud_data_f = pd.DataFrame(synthetic_data).tail(80  * SIZE_CONSTANT)
+
+# Öka genomsnittsinkomsten
+fraud_data_f['income'] *= np.random.uniform(1.05, 1.15, size=len(fraud_data_f))
+# Gör epostlikhet lägre (kanske bots använder random mejl)
+fraud_data_f['name_email_similarity'] *= np.random.uniform(0.9, 0.95, size=len(fraud_data_f))
+fraud_data_f['name_email_similarity'] = fraud_data_f['name_email_similarity'].clip(0, 1)
+
+# Äldre kunder → skifta åldersfördelningen uppåt
+fraud_data_f['customer_age'] += np.random.randint(1, 5, size=len(fraud_data_f))
+fraud_data_f['customer_age'] = fraud_data_f['customer_age'].clip(18, 100)
+'''
+
+
+
 
 
 fraud_data = pd.read_csv('../data/FiFAR/Base.csv').head(100000)
@@ -62,7 +102,8 @@ column_mapping = ColumnMapping(
 report = Report([
     DataDriftPreset(),
 ])
-chunk_size = 200000
+chunk_size = 4  * SIZE_CONSTANT
+n = 0
 for i in range(0, len(fraud_data_f), chunk_size):
     current_chunk = fraud_data_f.iloc[i:i + chunk_size]
 
@@ -87,11 +128,13 @@ for i in range(0, len(fraud_data_f), chunk_size):
     if not data_drift:
         print("✅ No significant drift detected.")
 
-    reference_data = pd.concat([fraud_data, current_chunk], ignore_index=True)
+    n += 1
+    print("Processed chunk: ", n)
 
 
 
 
-report.run(current_data=current_chunk,  reference_data=fraud_data, column_mapping=column_mapping)
+
+report.run(current_data=fraud_data_f,  reference_data=fraud_data, column_mapping=column_mapping)
 report.save_html("file.html")
 print("HTML-report saved in:", os.path.abspath("file.html"))
