@@ -1,5 +1,4 @@
 import os
-import random
 
 import numpy as np
 import pandas as pd
@@ -8,106 +7,109 @@ from evidently.metric_preset import DataDriftPreset
 from evidently.report import Report
 from imblearn.over_sampling import SMOTE
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, classification_report
-from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report, f1_score, recall_score, precision_score
 
-
+# Function to print feature information
 def print_feature_info():
-    missing = fraud_data_f.isnull().sum()
+    missing = fraud_data.isnull().sum()
     print("\nMissing values per column:\n", missing)
-    print("\nMissing value percentage per column:\n", (fraud_data_f.isnull().mean() * 100).round(2))
+    print("\nMissing value percentage per column:\n", (fraud_data.isnull().mean() * 100).round(2))
 
-    duplicates = fraud_data_f.duplicated().sum()
+    duplicates = fraud_data.duplicated().sum()
     print(f"Number of duplicated rows: {duplicates}")
 
     print("\nData types:\n", X.dtypes)
 
 
-def print_data_info():
-    print("\nValue counts:\n", y.value_counts())
-    print("Accuracy: " + str(accuracy_score(tail_y, prediction)))
-    print("\nClassification Report:\n", classification_report(tail_y, prediction))
 
-SIZE_CONSTANT = 10000
-'''
-# Antal syntetiska datapunkter du vill generera
-num_samples = 100 * SIZE_CONSTANT
-
-# Funktioner och deras respektive intervall eller distributioner
-synthetic_data = {
-    'income': [random.uniform(20000, 100000) for _ in range(num_samples)],
-    'name_email_similarity': [random.uniform(0, 1) for _ in range(num_samples)],
-    'prev_address_months_count': [random.randint(0, 120) for _ in range(num_samples)],
-    'current_address_months_count': [random.randint(0, 120) for _ in range(num_samples)],
-    'customer_age': [random.randint(18, 90) for _ in range(num_samples)],
-    'days_since_request': [random.randint(0, 365) for _ in range(num_samples)],
-    'intended_balcon_amount': [random.uniform(1000, 50000) for _ in range(num_samples)],
-    'zip_count_4w': [random.randint(0, 100) for _ in range(num_samples)],
-    'fraud_bool': [random.choice([0, 1]) for _ in range(num_samples)]
-}
-
-# Skapa en DataFrame
-fraud_data = pd.DataFrame(synthetic_data).head(20  * SIZE_CONSTANT)
-fraud_data_f = pd.DataFrame(synthetic_data).tail(80  * SIZE_CONSTANT)
-
-# Öka genomsnittsinkomsten
-fraud_data_f['income'] *= np.random.uniform(1.05, 1.15, size=len(fraud_data_f))
-# Gör epostlikhet lägre (kanske bots använder random mejl)
-fraud_data_f['name_email_similarity'] *= np.random.uniform(0.9, 0.95, size=len(fraud_data_f))
-fraud_data_f['name_email_similarity'] = fraud_data_f['name_email_similarity'].clip(0, 1)
-
-# Äldre kunder → skifta åldersfördelningen uppåt
-fraud_data_f['customer_age'] += np.random.randint(1, 5, size=len(fraud_data_f))
-fraud_data_f['customer_age'] = fraud_data_f['customer_age'].clip(18, 100)
-'''
-
-
-
-
-
+# Load the data
 fraud_data = pd.read_csv('../data/FiFAR/Base.csv').head(100000)
-fraud_data_f = pd.read_csv('../data/FiFAR/Base.csv').tail(900000)
 fraud_features = ['income', 'name_email_similarity', 'prev_address_months_count', 'current_address_months_count',
        'customer_age', 'days_since_request', 'intended_balcon_amount', 'zip_count_4w']
 
+
+# Split the data into features and target variable
 y = fraud_data['fraud_bool']
 X = fraud_data[fraud_features]
 
-train_X, test_X, train_y, test_y = train_test_split(X, y, random_state=42, test_size=0.2)
+# Split the data into training and testing sets
+train_size = int(len(X) * 0.8)
+train_X, test_X = X[:train_size], X[train_size:]
+train_y, test_y = y[:train_size], y[train_size:]
 
-model = RandomForestClassifier(random_state=42)
-model.fit(train_X, train_y)
+# Resample the training data using SMOTE
+smote = SMOTE(random_state=42)
+X_resampled, y_resampled = smote.fit_resample(train_X, train_y)
 
+# Train a Random Forest Classifier
+model = RandomForestClassifier(random_state=42, class_weight='balanced')
+model.fit(X_resampled, y_resampled)
+
+# Print the target counts
+print(train_y.value_counts())
+
+# Predict on the test set
+probabilities = model.predict_proba(test_X)[:, 1]
+thresholds = np.arange(0.000, 1.000, 0.001)
+
+print(f"{'Threshold':<10} {'Precision':<10} {'Recall':<10} {'F1-score':<10}")
+print("-" * 40)
+
+best_percision = (0, 0, 0, 0)
+best_f1Score = (0, 0, 0, 0)
+best_recall = (0, 0, 0, 0)
+for threshold in thresholds:
+    preds = (probabilities > threshold).astype(int)
+    precision = precision_score(test_y, preds, zero_division=0)
+    recall = recall_score(test_y, preds, zero_division=0)
+    f1 = f1_score(test_y, preds, zero_division=0)
+    if f1 > best_f1Score[3]: best_f1Score = (threshold, precision, recall, f1)
+    if precision > best_percision[1]: best_percision = (threshold, precision, recall, f1)
+    if recall > best_recall[2]: best_recall = (threshold, precision, recall, f1)
+    print(f"{threshold:<10.3f} {precision:<10.3f} {recall:<10.3f} {f1:<10.3f}")
+
+# Print the best thresholds
+print("\nBest F1 Score: ", best_f1Score[0], "; With Precision: ", best_f1Score[1], ";  Recall: ", best_f1Score[2], ";  F1: ", best_f1Score[3])
+print("Best Precision: ", best_percision[0], "; With Precision: ", best_percision[1], ";  Recall: ", best_percision[2], ";  F1: ", best_percision[3])
+print("Best Recall: ", best_recall[0], "; With Precision: ", best_recall[1], ";  Recall: ", best_recall[2], ";  F1: ", best_recall[3])
+
+# Column mapping for Evidently
 column_mapping = ColumnMapping(
     numerical_features=fraud_features,
     categorical_features=[],
 )
+# Create a report with DataDriftPreset
 report = Report([
     DataDriftPreset(),
 ])
-chunk_size = 4  * SIZE_CONSTANT
+
+# Set the chunk size
+chunk_size = 4000
 n = 0
-for i in range(0, len(fraud_data_f), chunk_size):
+# Simulate real-time data drift monitoring
+for i in range(0, len(test_X), chunk_size):
     print("Processing chunk: ", n, "////////////////////////////////////////")
-    current_chunk = fraud_data_f.iloc[i:i + chunk_size]
-    current_batch = fraud_data_f.iloc[0:i + chunk_size]
+    current_chunk = test_X.iloc[i:i + chunk_size]
+    current_chunk_target = test_y.iloc[i:i + chunk_size]
+    current_batch = test_X.iloc[0:i + chunk_size]
 
     report.run(
         current_data=current_chunk,
-        reference_data=fraud_data,
+        reference_data=train_X,
         column_mapping=column_mapping
     )
 
     resultChunk = report.as_dict()
     report.run(
         current_data=current_batch,
-        reference_data=fraud_data,
+        reference_data=train_X,
         column_mapping=column_mapping
     )
     resultBatch = report.as_dict()
 
     data_drift = False
 
+    # Check for data drift in the chunk
     print("Checking for drift in chunk")
     for metric in resultChunk["metrics"]:
         if metric["metric"] == "DataDriftTable":
@@ -118,6 +120,8 @@ for i in range(0, len(fraud_data_f), chunk_size):
                     print(f"⚠️ Drift in '{feature_name}': {drift_score:.3f}")
                     data_drift = True
 
+
+    # Check for data drift in the batch
     print("Checking for drift in batch")
     for metric in resultBatch["metrics"]:
         if metric["metric"] == "DataDriftTable":
@@ -132,7 +136,9 @@ for i in range(0, len(fraud_data_f), chunk_size):
         print("✅ No significant drift detected.")
 
 
-    prediction = model.predict()
+    prediction = model.predict(current_chunk)
+    print("Accuracy: " + str(accuracy_score(current_chunk_target, prediction)))
+    print("\nClassification Report:\n", classification_report(current_chunk_target, prediction))
 
     n += 1
 
@@ -146,3 +152,14 @@ print("HTML-report saved in:", os.path.abspath("fileSmall.html"))
 report.run(current_data=test_X,  reference_data=train_X, column_mapping=column_mapping)
 report.save_html("file.html")
 print("HTML-report saved in:", os.path.abspath("file.html"))
+
+result = report.as_dict()
+
+for metric in result["metrics"]:
+    if metric["metric"] == "DataDriftTable":
+        drift_by_columns = metric["result"].get("drift_by_columns", {})
+        for feature_name, feature_data in drift_by_columns.items():
+            drift_score = feature_data["drift_score"]
+            if drift_score > 0.1:
+                print(f"⚠️ Drift in '{feature_name}': {drift_score:.3f}")
+                data_drift = True
