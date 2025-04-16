@@ -23,6 +23,11 @@ def print_feature_info():
     print("\nData types:\n", X.dtypes)
 
 
+def print_data_info():
+    print("\nValue counts:\n", y.value_counts())
+    print("Accuracy: " + str(accuracy_score(tail_y, prediction)))
+    print("\nClassification Report:\n", classification_report(tail_y, prediction))
+
 SIZE_CONSTANT = 10000
 '''
 # Antal syntetiska datapunkter du vill generera
@@ -65,35 +70,13 @@ fraud_data_f = pd.read_csv('../data/FiFAR/Base.csv').tail(900000)
 fraud_features = ['income', 'name_email_similarity', 'prev_address_months_count', 'current_address_months_count',
        'customer_age', 'days_since_request', 'intended_balcon_amount', 'zip_count_4w']
 
-
-tail_y = fraud_data_f['fraud_bool']
-tail_X = fraud_data_f[fraud_features]
-
-
 y = fraud_data['fraud_bool']
 X = fraud_data[fraud_features]
 
-print("\nValue counts:\n", y.value_counts())
-
-print_feature_info()
-
-sm = SMOTE(random_state=42)
-X_resampled, y_resampled = sm.fit_resample(X, y)
-
-print("\nOriginal class distribution:\n", y.value_counts())
-print("\nResampled class distribution:\n", y_resampled.value_counts())
-
-
-train_X, test_X, train_y, test_y = train_test_split(X_resampled, y_resampled, random_state=42, test_size=0.2)
-
+train_X, test_X, train_y, test_y = train_test_split(X, y, random_state=42, test_size=0.2)
 
 model = RandomForestClassifier(random_state=42)
 model.fit(train_X, train_y)
-
-prediction = model.predict(tail_X)
-print("Accuracy: " + str(accuracy_score(tail_y, prediction)))
-print("\nClassification Report:\n", classification_report(tail_y, prediction))
-
 
 column_mapping = ColumnMapping(
     numerical_features=fraud_features,
@@ -105,18 +88,38 @@ report = Report([
 chunk_size = 4  * SIZE_CONSTANT
 n = 0
 for i in range(0, len(fraud_data_f), chunk_size):
+    print("Processing chunk: ", n, "////////////////////////////////////////")
     current_chunk = fraud_data_f.iloc[i:i + chunk_size]
+    current_batch = fraud_data_f.iloc[0:i + chunk_size]
 
     report.run(
         current_data=current_chunk,
         reference_data=fraud_data,
         column_mapping=column_mapping
     )
-    result = report.as_dict()
+
+    resultChunk = report.as_dict()
+    report.run(
+        current_data=current_batch,
+        reference_data=fraud_data,
+        column_mapping=column_mapping
+    )
+    resultBatch = report.as_dict()
 
     data_drift = False
 
-    for metric in result["metrics"]:
+    print("Checking for drift in chunk")
+    for metric in resultChunk["metrics"]:
+        if metric["metric"] == "DataDriftTable":
+            drift_by_columns = metric["result"].get("drift_by_columns", {})
+            for feature_name, feature_data in drift_by_columns.items():
+                drift_score = feature_data["drift_score"]
+                if drift_score > 0.1:
+                    print(f"⚠️ Drift in '{feature_name}': {drift_score:.3f}")
+                    data_drift = True
+
+    print("Checking for drift in batch")
+    for metric in resultBatch["metrics"]:
         if metric["metric"] == "DataDriftTable":
             drift_by_columns = metric["result"].get("drift_by_columns", {})
             for feature_name, feature_data in drift_by_columns.items():
@@ -128,13 +131,18 @@ for i in range(0, len(fraud_data_f), chunk_size):
     if not data_drift:
         print("✅ No significant drift detected.")
 
+
+    prediction = model.predict()
+
     n += 1
-    print("Processed chunk: ", n)
 
 
 
 
+report.run(current_data=test_X.tail(5000),  reference_data=train_X, column_mapping=column_mapping)
+report.save_html("fileSmall.html")
+print("HTML-report saved in:", os.path.abspath("fileSmall.html"))
 
-report.run(current_data=fraud_data_f,  reference_data=fraud_data, column_mapping=column_mapping)
+report.run(current_data=test_X,  reference_data=train_X, column_mapping=column_mapping)
 report.save_html("file.html")
 print("HTML-report saved in:", os.path.abspath("file.html"))
