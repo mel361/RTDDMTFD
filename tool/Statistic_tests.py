@@ -1,30 +1,63 @@
-import numpy as np
-from scipy.stats import spearmanr, mannwhitneyu
-from sklearn.feature_selection import mutual_info_regression
+from scipy.stats import spearmanr, shapiro, pearsonr
 
 
-def run_statistic_tests(chunk_drift_mean_list, batch_drift_mean_list, precision_list, recall_list):
-    corr, p = spearmanr(chunk_drift_mean_list, recall_list)
-    print(f"Spearman: corr={corr:.2f}, p={p:.4f}")
 
-    pre = recall_list[:125]
-    post = recall_list[125:]
-    stat, p = mannwhitneyu(pre, post, alternative="two-sided")
-    print(f"Mann-Whitney: stat={stat:.2f}, p={p:.4f}")
+def correlation_precision_test(precision_list, full_batch_drift_mean_list):
+    stat_drift, p_drift = shapiro(full_batch_drift_mean_list)
+    stat_precision, p_precision = shapiro(precision_list)
 
-    # Convert lists to numpy arrays for mutual information calculation
-    chunk_drift_arr = np.array(chunk_drift_mean_list).reshape(-1, 1)
-    batch_drift_arr = np.array(batch_drift_mean_list).reshape(-1, 1)
-    precision_arr = np.array(precision_list)
-    recall_arr = np.array(recall_list)
+    print(f"Shapiro-Wilk for full-batch Drift: stat={stat_drift:.4f}, p={p_drift:.4f}")
+    print(f"Shapiro-Wilk for Precision: stat={stat_precision:.4f}, p={p_precision:.4f}")
 
-    # Mutual information: drift vs precision/recall
-    mi_chunk_precision = mutual_info_regression(chunk_drift_arr, precision_arr)[0]
-    mi_chunk_recall = mutual_info_regression(chunk_drift_arr, recall_arr)[0]
-    mi_batch_precision = mutual_info_regression(batch_drift_arr, precision_arr)[0]
-    mi_batch_recall = mutual_info_regression(batch_drift_arr, recall_arr)[0]
+    if p_drift < 0.05 or p_precision < 0.05:
+        corr, pval = spearmanr(full_batch_drift_mean_list, precision_list)
 
-    print(f"Mutual Info – Chunk Drift vs Precision: {mi_chunk_precision:.4f}")
-    print(f"Mutual Info – Chunk Drift vs Recall:    {mi_chunk_recall:.4f}")
-    print(f"Mutual Info – Batch Drift vs Precision: {mi_batch_precision:.4f}")
-    print(f"Mutual Info – Batch Drift vs Recall:    {mi_batch_recall:.4f}")
+        print("\n📊 Spearman Rank Correlation Test")
+        print(f"Correlation coefficient (ρ): {corr:.3f}")
+        print(f"p-value: {pval:.4f}")
+    else:
+        corr, pval = pearsonr(full_batch_drift_mean_list, precision_list)
+
+        print("\n📊 Pearson Correlation Test")
+        print(f"Correlation coefficient (ρ): {corr:.3f}")
+        print(f"p-value: {pval:.4f}")
+
+    if pval < 0.05:
+        print("➡️ Significant correlation between drift and precision (p < 0.05)")
+        if corr > 0:
+            print("📈 Positive correlation – higher drift tends to give higher precision")
+        else:
+            print("📉 Negative correlation – higher drift tends to give lower precision")
+    else:
+        print("ℹ️ No significant correlation (p ≥ 0.05)")
+
+
+
+def correlation_recall_test(recall_list, full_batch_drift_mean_list):
+    stat_drift, p_drift = shapiro(full_batch_drift_mean_list)
+    stat_precision, p_precision = shapiro(recall_list)
+
+    print(f"Shapiro-Wilk for full-batch Drift: stat={stat_drift:.4f}, p={p_drift:.4f}")
+    print(f"Shapiro-Wilk for Recall: stat={stat_precision:.4f}, p={p_precision:.4f}")
+
+    if p_drift < 0.05 or p_precision < 0.05:
+        corr, pval = spearmanr(full_batch_drift_mean_list, recall_list)
+
+        print("\n📊 Spearman Rank Correlation Test")
+        print(f"Correlation coefficient (ρ): {corr:.3f}")
+        print(f"p-value: {pval:.4f}")
+    else:
+        corr, pval = pearsonr(full_batch_drift_mean_list, recall_list)
+
+        print("\n📊 Pearson Correlation Test")
+        print(f"Correlation coefficient (ρ): {corr:.3f}")
+        print(f"p-value: {pval:.4f}")
+
+    if pval < 0.05:
+        print("➡️ Significant correlation between drift and recall (p < 0.05)")
+        if corr > 0:
+            print("📈 Positive correlation – higher drift tends to give higher recall")
+        else:
+            print("📉 Negative correlation – higher drift tends to give lower recall")
+    else:
+        print("ℹ️ No significant correlation (p ≥ 0.05)")
