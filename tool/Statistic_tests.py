@@ -1,63 +1,31 @@
 from scipy.stats import spearmanr, shapiro, pearsonr
 
+def correlation_test(list_y, list_x, label_y, label_x):
+    stat_x, p_x = shapiro(list_x)
+    stat_y, p_y = shapiro(list_y)
 
+    print("\n📊 Shapiro-Wilk Normality Test for " + label_x.capitalize() + " and " + label_y.capitalize())
+    print("Shapiro-Wilk for " + label_x + f" drift: stat={stat_x:.4f}, p={p_x:.4f}")
+    print("Shapiro-Wilk for " + label_y + f": stat={stat_y:.4f}, p={p_y:.4f}")
 
-def correlation_precision_test(precision_list, full_batch_drift_mean_list):
-    stat_drift, p_drift = shapiro(full_batch_drift_mean_list)
-    stat_precision, p_precision = shapiro(precision_list)
-
-    print(f"Shapiro-Wilk for full-batch Drift: stat={stat_drift:.4f}, p={p_drift:.4f}")
-    print(f"Shapiro-Wilk for Precision: stat={stat_precision:.4f}, p={p_precision:.4f}")
-
-    if p_drift < 0.05 or p_precision < 0.05:
-        corr, pval = spearmanr(full_batch_drift_mean_list, precision_list)
+    if p_x < 0.05 or p_y< 0.05:
+        corr, pval = spearmanr(list_x, list_y)
 
         print("\n📊 Spearman Rank Correlation Test")
         print(f"Correlation coefficient (ρ): {corr:.3f}")
         print(f"p-value: {pval:.4f}")
     else:
-        corr, pval = pearsonr(full_batch_drift_mean_list, precision_list)
+        corr, pval = pearsonr(list_x, list_y)
 
         print("\n📊 Pearson Correlation Test")
         print(f"Correlation coefficient (ρ): {corr:.3f}")
         print(f"p-value: {pval:.4f}")
 
     if pval < 0.05:
-        print("➡️ Significant correlation between drift and precision (p < 0.05)")
+        print("➡️ Significant correlation between " + label_x + " drift and " + label_y + " (p < 0.05)")
         if corr > 0:
-            print("📈 Positive correlation – higher drift tends to give higher precision")
+            print("📈 Positive correlation – higher drift tends to give higher " + label_y + "\n\n")
         else:
-            print("📉 Negative correlation – higher drift tends to give lower precision")
+            print("📉 Negative correlation – higher drift tends to give lower " + label_y + "\n\n")
     else:
-        print("ℹ️ No significant correlation (p ≥ 0.05)")
-
-
-
-def correlation_recall_test(recall_list, full_batch_drift_mean_list):
-    stat_drift, p_drift = shapiro(full_batch_drift_mean_list)
-    stat_precision, p_precision = shapiro(recall_list)
-
-    print(f"Shapiro-Wilk for full-batch Drift: stat={stat_drift:.4f}, p={p_drift:.4f}")
-    print(f"Shapiro-Wilk for Recall: stat={stat_precision:.4f}, p={p_precision:.4f}")
-
-    if p_drift < 0.05 or p_precision < 0.05:
-        corr, pval = spearmanr(full_batch_drift_mean_list, recall_list)
-
-        print("\n📊 Spearman Rank Correlation Test")
-        print(f"Correlation coefficient (ρ): {corr:.3f}")
-        print(f"p-value: {pval:.4f}")
-    else:
-        corr, pval = pearsonr(full_batch_drift_mean_list, recall_list)
-
-        print("\n📊 Pearson Correlation Test")
-        print(f"Correlation coefficient (ρ): {corr:.3f}")
-        print(f"p-value: {pval:.4f}")
-
-    if pval < 0.05:
-        print("➡️ Significant correlation between drift and recall (p < 0.05)")
-        if corr > 0:
-            print("📈 Positive correlation – higher drift tends to give higher recall")
-        else:
-            print("📉 Negative correlation – higher drift tends to give lower recall")
-    else:
-        print("ℹ️ No significant correlation (p ≥ 0.05)")
+        print("ℹ️ No significant correlation (p ≥ 0.05)\n\n")
