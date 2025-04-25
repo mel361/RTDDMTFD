@@ -25,7 +25,7 @@ def print_feature_info():
 
 
 # Load the data
-fraud_data = pd.read_csv('../data/FiFAR/Base.csv')
+fraud_data = pd.read_csv('../data/FiFAR/Base.csv').head(50000)
 
 
 # Split the data into features and target variable
