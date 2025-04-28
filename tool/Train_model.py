@@ -77,7 +77,7 @@ best_threshold = best_f1Score[0]
 precision_list = []
 recall_list = []
 
-for i in range(0, len(test_X), CHUNK_SIZE):
+for i in range(TEST_SIZE, len(test_X), CHUNK_SIZE):
     print("Processing chunk: ", i // CHUNK_SIZE, "////////////////////////////////////////")
     current_chunk = test_X.iloc[i:i + CHUNK_SIZE]
     current_chunk_target = test_y.iloc[i:i + CHUNK_SIZE]
