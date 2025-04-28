@@ -9,7 +9,7 @@ from evidently import ColumnMapping
 from evidently.metric_preset import DataDriftPreset
 from evidently.report import Report
 
-from tool import Statistic_tests
+from tool import statistic_tests
 from tool.CONSTANT_VALUES import *
 
 # Import precision and recall
@@ -204,8 +204,8 @@ plt.show()
 
 #Create_Graphs.print_graphs(chunk_ids, precision_list, recall_list, chunk_drift_mean_list, batch_drift_mean_list, chunk_feature_drifts, batch_feature_drifts)
 
-Statistic_tests.correlation_test(precision_list, mean_drift_per_chunk, "precision", "full-batch mean")
-Statistic_tests.correlation_test(recall_list, mean_drift_per_chunk, "recall", "full-batch mean")
+statistic_tests.correlation_test(precision_list, mean_drift_per_chunk, "precision", "full-batch mean")
+statistic_tests.correlation_test(recall_list, mean_drift_per_chunk, "recall", "full-batch mean")
 
 
 
@@ -222,7 +222,7 @@ for feature in FRAUD_FEATURES:
     plt.tight_layout()
     plt.show()
 
-    Statistic_tests.correlation_test(precision_list, mean_feature_drift_per_chunk[feature], "precision", feature)
+    statistic_tests.correlation_test(precision_list, mean_feature_drift_per_chunk[feature], "precision", feature)
 
     # Print trend for recall per drift score
     plt.figure(figsize=(8, 5))
@@ -234,7 +234,7 @@ for feature in FRAUD_FEATURES:
     plt.tight_layout()
     plt.show()
 
-    Statistic_tests.correlation_test(recall_list, mean_feature_drift_per_chunk[feature], "recall", feature)
+    statistic_tests.correlation_test(recall_list, mean_feature_drift_per_chunk[feature], "recall", feature)
 
 
 
