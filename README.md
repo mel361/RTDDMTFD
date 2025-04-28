@@ -13,6 +13,42 @@ The project uses the **Evidently AI** framework and Random Forest models to dete
 - Rama Bito
 - Melker Elofsson
 
+## Installation
 Clone the repository:
 ```bash
 git clone https://github.com/https://github.com/mel361/RTDDMTFD
+```
+## Usage
+Train the model and find the best threshold:
+
+```bash
+python train_and_find_threshold.py
+```
+Run Full Batch Monitoring:
+
+```bash
+python full_batch_monitoring.py
+```
+Run Micro Batch Monitoring:
+
+```bash
+python micro_batch_monitoring.py
+```
+Results such as drift statistics, precision/recall scores, and graphs are saved to the /statistics/ directory.
+
+### Requirements
+- Python 3.10+
+- scikit-learn
+- pandas, numpy
+- matplotlib, seaborn
+- evidently
+- imbalanced-learn
+
+### System Overview
+The tool simulates real-time monitoring using batch and micro-batch processing:
+
+- Full batches analyze accumulated data at each monitoring point.
+- Micro-batches analyze smaller windows of recent data.
+- Drift detection is performed feature-wise with Evidently AI.
+- Performance (precision and recall) is correlated to detected drift over time.
+
