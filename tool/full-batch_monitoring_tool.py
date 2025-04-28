@@ -9,8 +9,8 @@ from evidently import ColumnMapping
 from evidently.metric_preset import DataDriftPreset
 from evidently.report import Report
 
-from tool import statistic_tests
-from tool.CONSTANT_VALUES import *
+import statistic_tests
+from CONSTANT_VALUES import *
 
 # Import precision and recall
 metrics_df = pd.read_csv( PATH_METRICS, index_col=0)
