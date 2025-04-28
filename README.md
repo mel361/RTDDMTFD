@@ -19,21 +19,21 @@ Clone the repository:
 git clone https://github.com/https://github.com/mel361/RTDDMTFD
 ```
 ## Usage
-Train the model and find the best threshold:
-
+1. Train the model and find the best threshold:
 ```bash
 python train_model.py
 ```
-Run Full Batch Monitoring:
 
+2. Run Full Batch Monitoring:
 ```bash
 python full-batch_monitoring.py
 ```
-Run Micro Batch Monitoring:
 
+3. Run Micro Batch Monitoring:
 ```bash
-python micro-batch_monitoring.py
+python micro-batch_monitoring_tool.py
 ```
+
 Results such as drift statistics, precision/recall scores, and graphs are saved to the /statistics/ directory.
 
 ### Requirements
