@@ -10,7 +10,7 @@ CHUNK_SIZE = 4000
 TEST_SIZE = 40000
 
 # Number of tests for each monitoring tool. This is used to simulate multiple runs of the monitoring process.
-TEST_ITERATIONS = 10
+TEST_ITERATIONS = 3
 
 # List of features used for fraud detection. Drift will be monitored for these features.
 FRAUD_FEATURES = [
@@ -30,3 +30,5 @@ PATH_TEST_Y = "model_values/test_y.csv"   # Path to the test dataset (labels onl
 PATH_TEST_X = "model_values/test_X.csv"   # Path to the test dataset (features only).
 PATH_METRICS = "model_values/metrics.csv" # Path to save evaluation metrics.
 PATH_BEST_THRESHOLD = "model_values/best_threshold.json" # Path to save the best threshold values.
+PATH_FULL_BATCH_TOOL_STATISTICS = "../statistics/full_batch_tool_statistics.csv" # Path to save statistics from the full batch monitoring tool.
+PATH_MICRO_BATCH_TOOL_STATISTICS = "../statistics/micro_batch_tool_statistics.csv" # Path to save statistics from the micro batch monitoring tool.

@@ -239,3 +239,9 @@ for feature in FRAUD_FEATURES:
 
 
 
+pd.DataFrame({
+    "Mean drift": mean_drift_per_chunk,
+    "Mean iteration time": mean_iteration_times,
+    "recall": full_time_list,
+    **{feature: drift_list for feature, drift_list in mean_feature_drift_per_chunk.items()}
+}).to_csv(PATH_FULL_BATCH_TOOL_STATISTICS, index=False)
