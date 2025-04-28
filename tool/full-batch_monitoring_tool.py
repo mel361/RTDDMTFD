@@ -10,26 +10,22 @@ from evidently.metric_preset import DataDriftPreset
 from evidently.report import Report
 
 from tool import Statistic_tests
-
-DRIFT_THRESHOLD = 0.1
-CHUNK_SIZE = 4000
-FRAUD_FEATURES = ['income', 'name_email_similarity', 'prev_address_months_count', 'current_address_months_count',
-                      'customer_age', 'days_since_request', 'intended_balcon_amount', 'zip_count_4w']
+from tool.CONSTANT_VALUES import *
 
 # Import precision and recall
-metrics_df = pd.read_csv("metrics.csv", index_col=0)
+metrics_df = pd.read_csv( PATH_METRICS, index_col=0)
 precision_list = metrics_df["precision"].tolist()
 recall_list = metrics_df["recall"].tolist()
 print("Metrics imported")
 
 # Import data
-test_X = pd.read_csv("test_X.csv", index_col=0)
-test_y = pd.read_csv("test_y.csv", index_col=0)
-train_X = pd.read_csv("train_X.csv", index_col=0)
+test_X = pd.read_csv(PATH_TEST_X, index_col=0)
+test_y = pd.read_csv(PATH_TEST_Y, index_col=0)
+train_X = pd.read_csv(PATH_TRAIN_X, index_col=0)
 print("Data imported")
 
 # Import threshold
-with open("best_threshold.json") as f:
+with open(PATH_BEST_THRESHOLD) as f:
     best_threshold = json.load(f)["best_threshold"]
 print("Threshold imported")
 
