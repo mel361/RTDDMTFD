@@ -27,12 +27,12 @@ python train_model.py
 Run Full Batch Monitoring:
 
 ```bash
-python full_batch_monitoring.py
+python full-batch_monitoring.py
 ```
 Run Micro Batch Monitoring:
 
 ```bash
-python micro_batch_monitoring.py
+python micro-batch_monitoring.py
 ```
 Results such as drift statistics, precision/recall scores, and graphs are saved to the /statistics/ directory.
 
