@@ -13,3 +13,6 @@ The project uses the **Evidently AI** framework and Random Forest models to dete
 - Rama Bito
 - Melker Elofsson
 
+Clone the repository:
+```bash
+git clone https://github.com/https://github.com/mel361/RTDDMTFD
