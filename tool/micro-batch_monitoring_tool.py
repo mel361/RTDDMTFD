@@ -46,7 +46,7 @@ all_iteration_times = {}
 micro_batch_drift_values = {}
 micro_batch_feature_drift_values = {feature: {} for feature in FRAUD_FEATURES}
 
-for i in range(10):
+for i in range(TEST_ITERATIONS):
     # Set the chunk size
     chunk_size = CHUNK_SIZE
     n = 1

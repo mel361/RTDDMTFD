@@ -9,6 +9,9 @@ CHUNK_SIZE = 4000
 # Amount of data to be used for testing. This is the size of the test dataset for finding best f1-score
 TEST_SIZE = 40000
 
+# Number of tests for each monitoring tool. This is used to simulate multiple runs of the monitoring process.
+TEST_ITERATIONS = 10
+
 # List of features used for fraud detection. Drift will be monitored for these features.
 FRAUD_FEATURES = [
     'income',
@@ -22,8 +25,8 @@ FRAUD_FEATURES = [
 ]
 
 # File paths for input and output data used in the monitoring tool.
-PATH_TRAIN_X = "/model_values/train_X.csv"  # Path to the training dataset (features only).
-PATH_TEST_Y = "/model_values/test_y.csv"   # Path to the test dataset (labels only).
-PATH_TEST_X = "/model_values/test_X.csv"   # Path to the test dataset (features only).
-PATH_METRICS = "/model_values/metrics.csv" # Path to save evaluation metrics.
-PATH_BEST_THRESHOLD = "/model_values/best_threshold.json" # Path to save the best threshold values.
+PATH_TRAIN_X = "model_values/train_X.csv"  # Path to the training dataset (features only).
+PATH_TEST_Y = "model_values/test_y.csv"   # Path to the test dataset (labels only).
+PATH_TEST_X = "model_values/test_X.csv"   # Path to the test dataset (features only).
+PATH_METRICS = "model_values/metrics.csv" # Path to save evaluation metrics.
+PATH_BEST_THRESHOLD = "model_values/best_threshold.json" # Path to save the best threshold values.

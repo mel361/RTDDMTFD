@@ -77,7 +77,7 @@ best_threshold = best_f1Score[0]
 precision_list = []
 recall_list = []
 
-for i in range(TEST_SIZE, len(test_X), CHUNK_SIZE):
+for i in range(0, len(test_X), CHUNK_SIZE):
     print("Processing chunk: ", i // CHUNK_SIZE, "////////////////////////////////////////")
     current_chunk = test_X.iloc[i:i + CHUNK_SIZE]
     current_chunk_target = test_y.iloc[i:i + CHUNK_SIZE]
@@ -98,8 +98,8 @@ pd.DataFrame({
     "recall": recall_list
 }).to_csv(PATH_METRICS, index=True)
 
-test_X.to_csv(PATH_TEST_X, index=True)
-test_y.to_csv(PATH_TEST_Y, index=True)
+test_X[TEST_SIZE:].to_csv(PATH_TEST_X, index=True)
+test_y[TEST_SIZE:].to_csv(PATH_TEST_Y, index=True)
 train_X.to_csv(PATH_TRAIN_X, index=True)
 
 with open(PATH_BEST_THRESHOLD, "w") as f:
