@@ -6,6 +6,9 @@ DRIFT_THRESHOLD = 0.1
 # Number of rows to process in each chunk during batch monitoring.
 CHUNK_SIZE = 4000
 
+# Amount of data to be used for testing. This is the size of the test dataset for finding best f1-score
+TEST_SIZE = 40000
+
 # List of features used for fraud detection. Drift will be monitored for these features.
 FRAUD_FEATURES = [
     'income',

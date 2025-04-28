@@ -127,7 +127,7 @@ for i in range(10):
 
 
 
-# 1. Mean iterations time per chunk
+# 1. Mean iteration time per chunk
 mean_iteration_times = [np.mean(all_iteration_times[chunk_id]) for chunk_id in sorted(all_iteration_times)]
 
 # 2. Mean drift per chunk

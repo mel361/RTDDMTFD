@@ -5,11 +5,8 @@ import pandas as pd
 from imblearn.over_sampling import SMOTE
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import precision_score, recall_score, f1_score
+from CONSTANT_VALUES import *
 
-DRIFT_THRESHOLD = 0.1
-CHUNK_SIZE = 4000
-FRAUD_FEATURES = ['income', 'name_email_similarity', 'prev_address_months_count', 'current_address_months_count',
-                      'customer_age', 'days_since_request', 'intended_balcon_amount', 'zip_count_4w']
 
 # Function to print feature information
 def print_feature_info():
@@ -48,7 +45,7 @@ model.fit(X_resampled, y_resampled)
 # Print the target counts
 print(train_y.value_counts())
 
-probabilities = model.predict_proba(test_X.head(40000))[:, 1]
+probabilities = model.predict_proba(test_X.head(TEST_SIZE))[:, 1]
 thresholds = np.arange(0.000, 1.000, 0.001)
 
 print(f"{'Threshold':<10} {'Precision':<10} {'Recall':<10} {'F1-score':<10}")
@@ -59,9 +56,9 @@ best_f1Score = (0, 0, 0, 0)
 best_recall = (0, 0, 0, 0)
 for threshold in thresholds:
     predictions = (probabilities > threshold).astype(int)
-    precision = precision_score(test_y.head(40000), predictions, zero_division=0)
-    recall = recall_score(test_y.head(40000), predictions, zero_division=0)
-    f1 = f1_score(test_y.head(40000), predictions, zero_division=0)
+    precision = precision_score(test_y.head(TEST_SIZE), predictions, zero_division=0)
+    recall = recall_score(test_y.head(TEST_SIZE), predictions, zero_division=0)
+    f1 = f1_score(test_y.head(TEST_SIZE), predictions, zero_division=0)
     if f1 > best_f1Score[3]: best_f1Score = (threshold, precision, recall, f1)
     if precision > best_precision[1]: best_precision = (threshold, precision, recall, f1)
     if recall > best_recall[2]: best_recall = (threshold, precision, recall, f1)
@@ -80,7 +77,7 @@ best_threshold = best_f1Score[0]
 precision_list = []
 recall_list = []
 
-for i in range(0, len(test_X), CHUNK_SIZE):
+for i in range(TEST_SIZE, len(test_X), CHUNK_SIZE):
     print("Processing chunk: ", i // CHUNK_SIZE, "////////////////////////////////////////")
     current_chunk = test_X.iloc[i:i + CHUNK_SIZE]
     current_chunk_target = test_y.iloc[i:i + CHUNK_SIZE]
@@ -99,11 +96,11 @@ for i in range(0, len(test_X), CHUNK_SIZE):
 pd.DataFrame({
     "precision": precision_list,
     "recall": recall_list
-}).to_csv("metrics.csv", index=True)
+}).to_csv(PATH_METRICS, index=True)
 
-test_X.to_csv("test_X.csv", index=True)
-test_y.to_csv("test_y.csv", index=True)
-train_X.to_csv("train_X.csv", index=True)
+test_X.to_csv(PATH_TEST_X, index=True)
+test_y.to_csv(PATH_TEST_Y, index=True)
+train_X.to_csv(PATH_TRAIN_X, index=True)
 
-with open("best_threshold.json", "w") as f:
+with open(PATH_BEST_THRESHOLD, "w") as f:
     json.dump({"best_threshold": best_threshold}, f)
