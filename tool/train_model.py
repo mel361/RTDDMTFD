@@ -2,6 +2,7 @@ import json
 
 import numpy as np
 import pandas as pd
+import sklearn
 from imblearn.over_sampling import SMOTE
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import precision_score, recall_score, f1_score
@@ -31,8 +32,10 @@ X = fraud_data[FRAUD_FEATURES]
 
 # Split the data into training and testing sets
 train_size = int(len(X) * 0.8)
-train_X, test_X = X[:train_size], X[train_size:]
-train_y, test_y = y[:train_size], y[train_size:]
+
+train_X, test_X, train_y, test_y = sklearn.model_selection.train_test_split(X, y, test_size=TEST_SIZE, random_state=42)
+#train_X, test_X = X[:train_size], X[train_size:]
+#train_y, test_y = y[:train_size], y[train_size:]
 
 # Resample the training data using SMOTE
 smote = SMOTE(random_state=42)
