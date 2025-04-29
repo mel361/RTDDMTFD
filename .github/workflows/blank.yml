@@ -43,7 +43,6 @@ jobs:
         working-directory: ./tool
         run: |
           python train_model.py
-      - name: Run micro batch monitoring script
 
       - name: Run micro-batch monitoring script
         working-directory: ./tool
