@@ -40,6 +40,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run monitoring script
+        working-directory: ./tool
         run: |
           python tool/train_model.py
       
