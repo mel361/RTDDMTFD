@@ -42,5 +42,5 @@ jobs:
       - name: Run monitoring script
         working-directory: ./tool
         run: |
-          python tool/train_model.py
+          python train_model.py
       
