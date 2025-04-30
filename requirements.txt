@@ -1,7 +1,8 @@
-numpy
-pandas
-evidently
-matplotlib
-seaborn
-scikit-learn
-imbalanced-learn
+numpy~=2.0.2
+pandas~=2.2.3
+evidently~=0.6.5
+matplotlib~=3.10.1
+seaborn~=0.13.2
+scikit-learn~=1.6.1
+imbalanced-learn~=0.13.0
+scipy~=1.15.2

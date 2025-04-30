@@ -12,7 +12,7 @@ import statistic_tests
 from CONSTANT_VALUES import *
 
 # Import precision and recall
-metrics_df = pd.read_csv( PATH_METRICS, index_col=0)
+metrics_df = pd.read_csv(PATH_METRICS, index_col=0)
 precision_list = metrics_df["precision"].tolist()
 recall_list = metrics_df["recall"].tolist()
 print("Metrics imported")
