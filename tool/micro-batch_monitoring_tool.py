@@ -11,6 +11,7 @@ from evidently.report import Report
 import statistic_tests
 from CONSTANT_VALUES import *
 
+
 # Import precision and recall
 metrics_df = pd.read_csv(PATH_METRICS, index_col=0)
 precision_list = metrics_df["precision"].tolist()
@@ -151,6 +152,7 @@ plt.xlabel("Iterations")
 plt.ylabel("Time (seconds)")
 plt.grid(True)
 plt.tight_layout()
+plt.savefig("../output_graphs/micro-batch/iteration_times.png")
 plt.show()
 
 # --------- Iteration times
@@ -161,6 +163,7 @@ plt.xlabel("tests")
 plt.ylabel("Time (seconds)")
 plt.grid(True)
 plt.tight_layout()
+plt.savefig("../output_graphs/micro-batch/full_time.png")
 plt.show()
 
 
@@ -176,6 +179,7 @@ plt.title("Precision/Recall vs micro-batch Drift")
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
+plt.savefig("../output_graphs/micro-batch/micro-batch-drift.png")
 plt.show()
 
 
@@ -189,6 +193,7 @@ plt.ylabel("Precision")
 plt.title("Drift vs Precision with Trend line")
 plt.grid(True)
 plt.tight_layout()
+plt.savefig("../output_graphs/micro-batch/drift_vs_precision.png")
 plt.show()
 
 # Print trend for recall per drift score
@@ -199,6 +204,7 @@ plt.ylabel("Recall")
 plt.title("Drift vs Recall with Trend line")
 plt.grid(True)
 plt.tight_layout()
+plt.savefig("../output_graphs/micro-batch/drift_vs_recall.png")
 plt.show()
 
 #Create_Graphs.print_graphs(chunk_ids, precision_list, recall_list, chunk_drift_mean_list, batch_drift_mean_list, chunk_feature_drifts, batch_feature_drifts)
@@ -219,6 +225,7 @@ for feature in FRAUD_FEATURES:
     plt.title(feature.capitalize() + ": Drift vs Precision with Trend line")
     plt.grid(True)
     plt.tight_layout()
+    plt.savefig(f"../output_graphs/micro-batch/{feature}_drift_vs_precision.png")
     plt.show()
 
     statistic_tests.correlation_test(precision_list, mean_feature_drift_per_chunk[feature], "precision", feature)
@@ -231,6 +238,7 @@ for feature in FRAUD_FEATURES:
     plt.title(feature.capitalize() + ": Drift vs Recall with Trend line")
     plt.grid(True)
     plt.tight_layout()
+    plt.savefig(f"../output_graphs/micro-batch/{feature}_drift_vs_recall.png")
     plt.show()
 
     statistic_tests.correlation_test(recall_list, mean_feature_drift_per_chunk[feature], "recall", feature)
