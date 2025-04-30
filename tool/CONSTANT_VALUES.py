@@ -36,3 +36,5 @@ PATH_FULL_BATCH_TOOL_STATISTICS_FEATURES = "../statistics/full_batch_tool_statis
 PATH_MICRO_BATCH_TOOL_STATISTICS_FEATURES = "../statistics/micro_batch_tool_statistics/features.csv"
 PATH_FULL_BATCH_TOOL_STATISTICS_TESTS = "../statistics/full_batch_tool_statistics/tests.csv"
 PATH_MICRO_BATCH_TOOL_STATISTICS_TESTS = "../statistics/micro_batch_tool_statistics/tests.csv"
+
+# Paths for output graphs to be stored.
