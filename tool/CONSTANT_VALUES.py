@@ -53,8 +53,8 @@ PATH_GRAPH_FULL_ITERATIONS = PATH_FULL + "iteration_times.png"
 PATH_GRAPH_FULL_FULL_TIME = PATH_FULL + "full_time.png"
 PATH_GRAPH_FULL_PRECISION_TREND = PATH_FULL + "drift_vs_precision.png"
 PATH_GRAPH_FULL_RECALL_TREND = PATH_FULL + "drift_vs_recall.png"
-PATH_GRAPH_FULL_FEATURES_PRECISION = PATH_FULL + "_drift_vs_precision.png"
-PATH_GRAPH_FULL_FEATURES_RECALL = PATH_FULL + "_drift_vs_recall.png"
+PATH_GRAPH_FULL_FEATURES_PRECISION = "_drift_vs_precision.png"
+PATH_GRAPH_FULL_FEATURES_RECALL = "_drift_vs_recall.png"
 
 
 
