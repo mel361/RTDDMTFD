@@ -37,4 +37,24 @@ PATH_MICRO_BATCH_TOOL_STATISTICS_FEATURES = "../statistics/micro_batch_tool_stat
 PATH_FULL_BATCH_TOOL_STATISTICS_TESTS = "../statistics/full_batch_tool_statistics/tests.csv"
 PATH_MICRO_BATCH_TOOL_STATISTICS_TESTS = "../statistics/micro_batch_tool_statistics/tests.csv"
 
-# Paths for output graphs to be stored.
+
+# Paths for micro output graphs to be stored.
+PATH_MICRO = "../output_graphs/micro-batch/"
+PATH_GRAPH_MICRO_ITERATIONS = PATH_MICRO + "iteration_times.png"
+PATH_GRAPH_MICRO_FULL_TIME = PATH_MICRO + "full_time.png"
+PATH_GRAPH_MICRO_PRECISION_TREND = PATH_MICRO + "drift_vs_precision.png"
+PATH_GRAPH_MICRO_RECALL_TREND = PATH_MICRO + "drift_vs_recall.png"
+PATH_GRAPH_MICRO_FEATURES_PRECISION = "_drift_vs_precision.png"
+PATH_GRAPH_MICRO_FEATURES_RECALL = "_drift_vs_recall.png"
+
+# Paths for full output graphs to be stored.
+PATH_FULL = "../output_graphs/full-batch/"
+PATH_GRAPH_FULL_ITERATIONS = PATH_FULL + "iteration_times.png"
+PATH_GRAPH_FULL_FULL_TIME = PATH_FULL + "full_time.png"
+PATH_GRAPH_FULL_PRECISION_TREND = PATH_FULL + "drift_vs_precision.png"
+PATH_GRAPH_FULL_RECALL_TREND = PATH_FULL + "drift_vs_recall.png"
+PATH_GRAPH_FULL_FEATURES_PRECISION = PATH_FULL + "_drift_vs_precision.png"
+PATH_GRAPH_FULL_FEATURES_RECALL = PATH_FULL + "_drift_vs_recall.png"
+
+
+
