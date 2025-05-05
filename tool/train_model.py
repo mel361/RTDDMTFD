@@ -82,10 +82,10 @@ best_threshold = best_f1Score[0]
 precision_list = []
 recall_list = []
 
-for i in range(0, len(test_X), CHUNK_SIZE):
+for i in range(0, len(new_fraud_data[FRAUD_FEATURES]), CHUNK_SIZE):
     print("Processing chunk: ", i // CHUNK_SIZE, "////////////////////////////////////////")
-    current_chunk = test_X.iloc[i:i + CHUNK_SIZE]
-    current_chunk_target = test_y.iloc[i:i + CHUNK_SIZE]
+    current_chunk = new_fraud_data[FRAUD_FEATURES].iloc[i:i + CHUNK_SIZE]
+    current_chunk_target = new_fraud_data['fraud_bool'].iloc[i:i + CHUNK_SIZE]
 
     probabilities = model.predict_proba(current_chunk)[:, 1]
     iteration_predictions = (probabilities > best_threshold).astype(int)
