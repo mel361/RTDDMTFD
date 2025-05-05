@@ -1,6 +1,6 @@
 import os
 
-from tool.CONSTANT_VALUES import VARIANT_NAME
+from CONSTANT_VALUES import VARIANT_NAME
 
 # Create directories for storing output graphs and statistics
 dirs_to_create = [
