@@ -56,6 +56,11 @@ jobs:
 
       - name: Export variant to environment
         run: echo "VARIANT_NAME=${{ matrix.variant }}" >> $GITHUB_ENV
+
+      - name: Run model diretory setup script
+        working-directory: ./tool
+        run: |
+          python directory_setup.py
         
       - name: Run model training script
         working-directory: ./tool
