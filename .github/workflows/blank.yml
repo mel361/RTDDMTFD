@@ -57,3 +57,28 @@ jobs:
         working-directory: ./tool
         run: |
           python full-batch_monitoring_tool.py
+
+
+      - name: Upload micro-batch output graphs
+        uses: actions/upload-artifact@v4
+        with:
+          name: micro-batch-graphs
+          path: output_graphs/micro-batch/
+
+      - name: Upload micro-batch statistics
+        uses: actions/upload-artifact@v4
+        with:
+          name: micro-batch-statistics
+          path: statistics/micro_batch_tool_statistics/
+
+      - name: Upload full-batch output graphs
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-batch-graphs
+          path: output_graphs/full-batch/
+
+      - name: Upload full-batch statistics
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-batch-statistics
+          path: statistics/full_batch_tool_statistics/
