@@ -48,7 +48,7 @@ jobs:
         run: |
           curl -L -o VariantI.zip https://github.com/mel361/RTDDMTFD/releases/download/v1.0-data/VariantI.zip
           unzip VariantI.zip -d ./data
-          mv ./data/VariantI.csv ./data/NewData.csv
+          mv ./data/Variant I.csv ./data/NewData.csv
 
       - name: Run model training script
         working-directory: ./tool
