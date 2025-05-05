@@ -10,7 +10,7 @@ CHUNK_SIZE = 4000
 TEST_SIZE = 40000
 
 # Number of tests for each monitoring tool. This is used to simulate multiple runs of the monitoring process.
-TEST_ITERATIONS = 1
+TEST_ITERATIONS = 10
 
 # List of features used for fraud detection. Drift will be monitored for these features.
 FRAUD_FEATURES = [
