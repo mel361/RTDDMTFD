@@ -20,6 +20,10 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        variant: ["Variant I", "Variant II", "Variant III", "Variant IV", "Variant V"]
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -38,18 +42,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Download dataset from GitHub Release
+      - name: Download reference drifted dataset
         run: |
           curl -L -o Base.zip https://github.com/mel361/RTDDMTFD/releases/download/v1.0-data/Base.zip
           unzip Base.zip -d ./data
           mv ./data/Base.csv ./data/Reference.csv
 
-      - name: Download drifted dataset (Variant I)
+      - name: Download drifted dataset (Variant)
         run: |
-          curl -L -o VariantI.zip https://github.com/mel361/RTDDMTFD/releases/download/v1.0-data/VariantI.zip
-          unzip VariantI.zip -d ./data
-          mv "./data/Variant I.csv" ./data/NewData.csv
+          curl -L -o Variant.zip https://github.com/mel361/RTDDMTFD/releases/download/v1.0-data/${{ matrix.variant }}.zip
+          unzip Variant.zip -d ./data
+          mv "./data/${{ matrix.variant }}.csv" ./data/NewData.csv
 
+      - name: Export variant to environment
+        run: echo "VARIANT_NAME=${{ matrix.variant }}" >> $GITHUB_ENV
+        
       - name: Run model training script
         working-directory: ./tool
         run: |
@@ -64,6 +71,8 @@ jobs:
         working-directory: ./tool
         run: |
           python full-batch_monitoring_tool.py
+
+      
 
 
       - name: Upload micro-batch output graphs
