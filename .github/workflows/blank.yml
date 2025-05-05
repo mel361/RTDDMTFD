@@ -40,7 +40,7 @@ jobs:
 
       - name: Download dataset from GitHub Release
         run: |
-          curl -L -o dataset.zip https://github.com/mel361/RTDDMTFD/releases/download/v1.0-data/Base.zip
+          curl -L -o Base.zip https://github.com/mel361/RTDDMTFD/releases/download/v1.0-data/Base.zip
           unzip Base.zip -d ./data
 
       - name: Run model training script
