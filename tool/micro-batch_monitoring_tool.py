@@ -170,17 +170,6 @@ plt.show()
 print("micro_batch_drift_mean_list SIZE: ", len(mean_drift_per_chunk))
 print("precision_list SIZE: ", len(precision_list))
 
-plt.figure(figsize=(8, 5))
-plt.scatter(mean_drift_per_chunk, precision_list, alpha=0.7, label="Precision vs micro-batch Drift")
-plt.scatter(mean_drift_per_chunk, recall_list, alpha=0.7, label="Recall vs micro-batch Drift")
-plt.xlabel("Mean micro-batch Drift")
-plt.ylabel("Score")
-plt.title("Precision/Recall vs micro-batch Drift")
-plt.legend()
-plt.grid(True)
-plt.tight_layout()
-plt.savefig("../output_graphs/micro-batch/micro-batch-drift.png")
-plt.show()
 
 
 

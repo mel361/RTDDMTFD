@@ -170,16 +170,6 @@ plt.show()
 print("full_batch_drift_mean_list SIZE: ", len(mean_drift_per_chunk))
 print("precision_list SIZE: ", len(precision_list))
 
-plt.figure(figsize=(8, 5))
-plt.scatter(mean_drift_per_chunk, precision_list, alpha=0.7, label="Precision vs full-batch Drift")
-plt.scatter(mean_drift_per_chunk, recall_list, alpha=0.7, label="Recall vs full-batch Drift")
-plt.xlabel("Mean full-batch Drift")
-plt.ylabel("Score")
-plt.title("Precision/Recall vs full-batch Drift")
-plt.legend()
-plt.grid(True)
-plt.tight_layout()
-plt.show()
 
 
 
