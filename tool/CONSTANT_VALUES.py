@@ -1,4 +1,9 @@
+import os
+
+
 # Constants for the monitoring tool
+
+VARIANT_NAME = os.getenv("VARIANT_NAME", "NOT DEFINED") # The Name of the variant being monitored. This can be set as an environment variable.
 
 # Threshold for detecting data drift. If the drift score exceeds this value, drift is flagged.
 DRIFT_THRESHOLD = 0.1
@@ -10,7 +15,7 @@ CHUNK_SIZE = 4000
 TEST_SIZE = 40000
 
 # Number of tests for each monitoring tool. This is used to simulate multiple runs of the monitoring process.
-TEST_ITERATIONS = 10
+TEST_ITERATIONS = 1
 
 # List of features used for fraud detection. Drift will be monitored for these features.
 FRAUD_FEATURES = [
@@ -30,16 +35,16 @@ PATH_TEST_Y = "model_values/test_y.csv"   # Path to the test dataset (labels onl
 PATH_TEST_X = "model_values/test_X.csv"   # Path to the test dataset (features only).
 PATH_METRICS = "model_values/metrics.csv" # Path to save evaluation metrics.
 PATH_BEST_THRESHOLD = "model_values/best_threshold.json" # Path to save the best threshold values.
-PATH_FULL_BATCH_TOOL_STATISTICS_MEAN_DRIFTS = "../statistics/full_batch_tool_statistics/mean_drifts.csv"
-PATH_MICRO_BATCH_TOOL_STATISTICS_MEAN_DRIFTS = "../statistics/micro_batch_tool_statistics/mean_drifts.csv"
-PATH_FULL_BATCH_TOOL_STATISTICS_FEATURES = "../statistics/full_batch_tool_statistics/features.csv"
-PATH_MICRO_BATCH_TOOL_STATISTICS_FEATURES = "../statistics/micro_batch_tool_statistics/features.csv"
-PATH_FULL_BATCH_TOOL_STATISTICS_TESTS = "../statistics/full_batch_tool_statistics/tests.csv"
-PATH_MICRO_BATCH_TOOL_STATISTICS_TESTS = "../statistics/micro_batch_tool_statistics/tests.csv"
+PATH_FULL_BATCH_TOOL_STATISTICS_MEAN_DRIFTS = "../VARIANT_NAME/statistics/full_batch_tool_statistics/mean_drifts.csv"
+PATH_MICRO_BATCH_TOOL_STATISTICS_MEAN_DRIFTS = "../VARIANT_NAME/statistics/micro_batch_tool_statistics/mean_drifts.csv"
+PATH_FULL_BATCH_TOOL_STATISTICS_FEATURES = "../VARIANT_NAME/statistics/full_batch_tool_statistics/features.csv"
+PATH_MICRO_BATCH_TOOL_STATISTICS_FEATURES = "../VARIANT_NAME/statistics/micro_batch_tool_statistics/features.csv"
+PATH_FULL_BATCH_TOOL_STATISTICS_TESTS = "../VARIANT_NAME/statistics/full_batch_tool_statistics/tests.csv"
+PATH_MICRO_BATCH_TOOL_STATISTICS_TESTS = "../VARIANT_NAME/statistics/micro_batch_tool_statistics/tests.csv"
 
 
 # Paths for micro output graphs to be stored.
-PATH_MICRO = "../output_graphs/micro-batch/"
+PATH_MICRO = "../VARIANT_NAME/output_graphs/micro-batch/"
 PATH_GRAPH_MICRO_ITERATIONS = PATH_MICRO + "iteration_times.png"
 PATH_GRAPH_MICRO_FULL_TIME = PATH_MICRO + "full_time.png"
 PATH_GRAPH_MICRO_PRECISION_TREND = PATH_MICRO + "drift_vs_precision.png"
@@ -48,7 +53,7 @@ PATH_GRAPH_MICRO_FEATURES_PRECISION = "_drift_vs_precision.png"
 PATH_GRAPH_MICRO_FEATURES_RECALL = "_drift_vs_recall.png"
 
 # Paths for full output graphs to be stored.
-PATH_FULL = "../output_graphs/full-batch/"
+PATH_FULL = "../VARIANT_NAME/output_graphs/full-batch/"
 PATH_GRAPH_FULL_ITERATIONS = PATH_FULL + "iteration_times.png"
 PATH_GRAPH_FULL_FULL_TIME = PATH_FULL + "full_time.png"
 PATH_GRAPH_FULL_PRECISION_TREND = PATH_FULL + "drift_vs_precision.png"
