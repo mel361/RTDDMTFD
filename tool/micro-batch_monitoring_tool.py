@@ -50,6 +50,7 @@ for i in range(TEST_ITERATIONS):
     # Set the chunk size
     chunk_size = CHUNK_SIZE
     n = 1
+    print("Test: ", n)
     full_timer_start = time.time()
     time_drift_detected = 0
 
