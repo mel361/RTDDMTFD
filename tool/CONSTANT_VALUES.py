@@ -9,13 +9,13 @@ VARIANT_NAME = os.getenv("VARIANT_NAME", "NOT DEFINED") # The Name of the varian
 DRIFT_THRESHOLD = 0.1
 
 # Number of rows to process in each chunk during batch monitoring.
-CHUNK_SIZE = 8000
+CHUNK_SIZE = 4000
 
 # Amount of data to be used for testing. This is the size of the test dataset for finding best f1-score
-TEST_SIZE = 40000
+TEST_SIZE = 150000
 
 # Number of tests for each monitoring tool. This is used to simulate multiple runs of the monitoring process.
-TEST_ITERATIONS = 30
+TEST_ITERATIONS = 3
 
 # List of features used for fraud detection. Drift will be monitored for these features.
 FRAUD_FEATURES = [
@@ -39,8 +39,12 @@ PATH_FULL_BATCH_TOOL_STATISTICS_MEAN_DRIFTS = f"../{VARIANT_NAME}/statistics/ful
 PATH_MICRO_BATCH_TOOL_STATISTICS_MEAN_DRIFTS = f"../{VARIANT_NAME}/statistics/micro_batch_tool_statistics/mean_drifts.csv"
 PATH_FULL_BATCH_TOOL_STATISTICS_FEATURES = f"../{VARIANT_NAME}/statistics/full_batch_tool_statistics/features.csv"
 PATH_MICRO_BATCH_TOOL_STATISTICS_FEATURES = f"../{VARIANT_NAME}/statistics/micro_batch_tool_statistics/features.csv"
-PATH_FULL_BATCH_TOOL_STATISTICS_TESTS = f"../{VARIANT_NAME}/statistics/full_batch_tool_statistics/tests.csv"
-PATH_MICRO_BATCH_TOOL_STATISTICS_TESTS = f"../{VARIANT_NAME}/statistics/micro_batch_tool_statistics/tests.csv"
+PATH_FULL_BATCH_TOOL_STATISTICS_DETECTION_TIMES = f"../{VARIANT_NAME}/statistics/full_batch_tool_statistics/detection_times.csv"
+PATH_MICRO_BATCH_TOOL_STATISTICS_DETECTION_TIMES = f"../{VARIANT_NAME}/statistics/micro_batch_tool_statistics/detection_times.csv"
+PATH_FULL_BATCH_TOOL_STATISTICS_ITERATION_TIMES = f"../{VARIANT_NAME}/statistics/full_batch_tool_statistics/iteration_times.csv"
+PATH_MICRO_BATCH_TOOL_STATISTICS_ITERATION_TIMES = f"../{VARIANT_NAME}/statistics/micro_batch_tool_statistics/iteration_times.csv"
+PATH_FULL_BATCH_TOOL_STATISTICS_DETECTION_IDS = f"../{VARIANT_NAME}/statistics/full_batch_tool_statistics/detection_ids.csv"
+PATH_MICRO_BATCH_TOOL_STATISTICS_DETECTION_IDS = f"../{VARIANT_NAME}/statistics/micro_batch_tool_statistics/detection_ids.csv"
 
 
 # Paths for micro output graphs to be stored.

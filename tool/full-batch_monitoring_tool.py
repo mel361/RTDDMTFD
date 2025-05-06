@@ -1,10 +1,8 @@
 import json
 import time
-import seaborn as sns
 
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
 from evidently import ColumnMapping
 from evidently.metric_preset import DataDriftPreset
 from evidently.report import Report
@@ -41,7 +39,8 @@ report = Report([
 
 
 # Initialize lists and dicts
-full_time_list = []
+drift_detection_time = []
+drift_start_ids = []
 all_iteration_times = {}
 full_batch_drift_values = {}
 full_batch_feature_drift_values = {feature: {} for feature in FRAUD_FEATURES}
@@ -50,10 +49,13 @@ for i in range(TEST_ITERATIONS):
     # Set the chunk size
     chunk_size = CHUNK_SIZE
     n = 1
+    print("Test: ", i)
     full_timer_start = time.time()
     time_drift_detected = 0
 
-    # Initialize a list to store iteration times
+    drift_start_id = 0
+
+    # Initialize a list to store iteration times'
     iteration_times = []
     per_chunk_drift = []
     per_feature_chunk_drift = {feature: [] for feature in FRAUD_FEATURES}
@@ -104,6 +106,7 @@ for i in range(TEST_ITERATIONS):
         n += 1
         iteration_times.append(time.time() - iteration_time)
 
+
     print("Time drift detected: ", time_drift_detected)
 
     for chunk_id in range(n - 1):
@@ -122,7 +125,8 @@ for i in range(TEST_ITERATIONS):
                 full_batch_feature_drift_values[feature][chunk_id] = []
             full_batch_feature_drift_values[feature][chunk_id].append(drift_val)
 
-    full_time_list.append(time_drift_detected)
+    drift_detection_time.append(time_drift_detected)
+    drift_start_ids.append(drift_start_id)
 
 
 
@@ -140,105 +144,30 @@ mean_feature_drift_per_chunk = {
     for feature in FRAUD_FEATURES
 }
 
-# 4. Mean full drift-tid
-mean_full_time = np.mean(full_time_list)
-print("Mean time drift detected: ", time_drift_detected)
 
-# --------- Iteration times
-plt.figure(figsize=(10, 4))
-plt.plot(range(1, len(mean_iteration_times) + 1), mean_iteration_times, marker='o')
-plt.title("Iteration times")
-plt.xlabel("Iterations")
-plt.ylabel("Time (seconds)")
-plt.grid(True)
-plt.tight_layout()
-plt.savefig(PATH_GRAPH_FULL_ITERATIONS)
-plt.show()
-
-# --------- Iteration times
-plt.figure(figsize=(10, 4))
-plt.plot(range(1, len(full_time_list) + 1), full_time_list, marker='o')
-plt.title("Full-time times")
-plt.xlabel("tests")
-plt.ylabel("Time (seconds)")
-plt.grid(True)
-plt.tight_layout()
-plt.savefig(PATH_GRAPH_FULL_FULL_TIME)
-plt.show()
-
-
-print("full_batch_drift_mean_list SIZE: ", len(mean_drift_per_chunk))
-print("precision_list SIZE: ", len(precision_list))
-
-
-
-
-
-# Print trend for precision per drift score
-plt.figure(figsize=(8, 5))
-sns.regplot(x=mean_drift_per_chunk, y=precision_list, lowess=True)
-plt.xlabel("Mean Full-batch Drift")
-plt.ylabel("Precision")
-plt.title("Drift vs Precision with Trend line")
-plt.grid(True)
-plt.tight_layout()
-plt.savefig(PATH_GRAPH_FULL_PRECISION_TREND)
-plt.show()
-
-# Print trend for recall per drift score
-plt.figure(figsize=(8, 5))
-sns.regplot(x=mean_drift_per_chunk, y=recall_list, lowess=True)
-plt.xlabel("Mean Full-batch Drift")
-plt.ylabel("Recall")
-plt.title("Drift vs Recall with Trend line")
-plt.grid(True)
-plt.tight_layout()
-plt.savefig(PATH_GRAPH_FULL_RECALL_TREND)
-plt.show()
-
-#Create_Graphs.print_graphs(chunk_ids, precision_list, recall_list, chunk_drift_mean_list, batch_drift_mean_list, chunk_feature_drifts, batch_feature_drifts)
-
+# Correlation tests
 statistic_tests.correlation_test(precision_list, mean_drift_per_chunk, "precision", "full-batch mean")
 statistic_tests.correlation_test(recall_list, mean_drift_per_chunk, "recall", "full-batch mean")
 
-
-
-
-# Create graphs for each feature to visualize precision and recall per drift scores
 for feature in FRAUD_FEATURES:
-    # Print trend for precision per drift score
-    plt.figure(figsize=(8, 5))
-    sns.regplot(x=mean_feature_drift_per_chunk[feature], y=precision_list, lowess=True)
-    plt.xlabel(feature.capitalize() + " Full-batch Drift")
-    plt.ylabel("Precision")
-    plt.title(feature.capitalize() + ": Drift vs Precision with Trend line")
-    plt.grid(True)
-    plt.tight_layout()
-    plt.savefig(PATH_FULL + f"{feature}" + PATH_GRAPH_FULL_FEATURES_PRECISION)
-    plt.show()
-
-    statistic_tests.correlation_test(precision_list, mean_feature_drift_per_chunk[feature], "precision", feature)
-
-    # Print trend for recall per drift score
-    plt.figure(figsize=(8, 5))
-    sns.regplot(x=mean_feature_drift_per_chunk[feature], y=recall_list, lowess=True)
-    plt.xlabel(feature.capitalize() + " Full-batch Drift")
-    plt.ylabel("Recall")
-    plt.title(feature.capitalize() + ": Drift vs Recall with Trend line")
-    plt.grid(True)
-    plt.tight_layout()
-    plt.savefig(PATH_FULL + f"{feature}" + PATH_GRAPH_FULL_FEATURES_RECALL)
-    plt.show()
-
-    statistic_tests.correlation_test(recall_list, mean_feature_drift_per_chunk[feature], "recall", feature)
+    statistic_tests.correlation_test(precision_list, mean_feature_drift_per_chunk[feature], "precision", f"full-batch {feature}")
+    statistic_tests.correlation_test(recall_list, mean_feature_drift_per_chunk[feature], "recall", f"full-batch {feature}")
 
 
 
-
+# Save the drift values for each feature
 pd.DataFrame({
     feature: drift_list for feature, drift_list in mean_feature_drift_per_chunk.items()
 }).to_csv(PATH_FULL_BATCH_TOOL_STATISTICS_FEATURES, index=False)
 
+# Save the drift values for each chunk
 pd.DataFrame({"Mean drift": mean_drift_per_chunk}).to_csv(PATH_FULL_BATCH_TOOL_STATISTICS_MEAN_DRIFTS, index=False)
 
-pd.DataFrame({"Total test times": full_time_list}).to_csv(PATH_FULL_BATCH_TOOL_STATISTICS_TESTS, index=False)
+# Save the drift values for each feature
+pd.DataFrame({"Drift detection times": drift_detection_time}).to_csv(PATH_FULL_BATCH_TOOL_STATISTICS_DETECTION_TIMES, index=False)
+
+# Save iteration times
+pd.DataFrame({"Iteration times": mean_iteration_times}).to_csv(PATH_FULL_BATCH_TOOL_STATISTICS_ITERATION_TIMES, index=False)
+
+# Save drift detection ids
+pd.DataFrame({"Drift detection ids": drift_start_ids}).to_csv(PATH_FULL_BATCH_TOOL_STATISTICS_DETECTION_IDS, index=False)

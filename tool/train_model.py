@@ -34,7 +34,7 @@ y = reference_fraud_data['fraud_bool']
 X = reference_fraud_data[FRAUD_FEATURES]
 
 # Split the data into training and testing sets
-train_size = int(len(X) * 0.8)
+train_size = int(len(X) * 0.5)
 
 train_X, test_X, train_y, test_y = sklearn.model_selection.train_test_split(X, y, train_size=train_size, random_state=42)
 
@@ -50,7 +50,10 @@ model.fit(X_resampled, y_resampled)
 # Print the target counts
 print(train_y.value_counts())
 
-probabilities = model.predict_proba(test_X)[:, 1]
+test_X_prob = test_X.head(TEST_SIZE)
+test_y_prob = test_y.head(TEST_SIZE)
+
+probabilities = model.predict_proba(test_X_prob)[:, 1]
 thresholds = np.arange(0.000, 1.000, 0.001)
 
 print(f"{'Threshold':<10} {'Precision':<10} {'Recall':<10} {'F1-score':<10}")
@@ -61,9 +64,9 @@ best_f1Score = (0, 0, 0, 0)
 best_recall = (0, 0, 0, 0)
 for threshold in thresholds:
     predictions = (probabilities > threshold).astype(int)
-    precision = precision_score(test_y, predictions, zero_division=0)
-    recall = recall_score(test_y, predictions, zero_division=0)
-    f1 = f1_score(test_y, predictions, zero_division=0)
+    precision = precision_score(test_y_prob, predictions, zero_division=0)
+    recall = recall_score(test_y_prob, predictions, zero_division=0)
+    f1 = f1_score(test_y_prob, predictions, zero_division=0)
     if f1 > best_f1Score[3]: best_f1Score = (threshold, precision, recall, f1)
     if precision > best_precision[1]: best_precision = (threshold, precision, recall, f1)
     if recall > best_recall[2]: best_recall = (threshold, precision, recall, f1)
@@ -82,10 +85,13 @@ best_threshold = best_f1Score[0]
 precision_list = []
 recall_list = []
 
-for i in range(0, len(new_fraud_data[FRAUD_FEATURES]), CHUNK_SIZE):
+test_simulation_data_X = pd.concat([test_X[TEST_SIZE:], new_fraud_data[FRAUD_FEATURES].head(TEST_SIZE)], ignore_index=True)
+test_simulation_data_y = pd.concat([test_y[TEST_SIZE:], new_fraud_data['fraud_bool'].head(TEST_SIZE)], ignore_index=True)
+
+for i in range(0, len(test_simulation_data_X), CHUNK_SIZE):
     print("Processing chunk: ", i // CHUNK_SIZE, "////////////////////////////////////////")
-    current_chunk = new_fraud_data[FRAUD_FEATURES].iloc[i:i + CHUNK_SIZE]
-    current_chunk_target = new_fraud_data['fraud_bool'].iloc[i:i + CHUNK_SIZE]
+    current_chunk = test_simulation_data_X.iloc[i:i + CHUNK_SIZE]
+    current_chunk_target = test_simulation_data_y.iloc[i:i + CHUNK_SIZE]
 
     probabilities = model.predict_proba(current_chunk)[:, 1]
     iteration_predictions = (probabilities > best_threshold).astype(int)
@@ -102,8 +108,8 @@ pd.DataFrame({
     "precision": precision_list,
     "recall": recall_list
 }).to_csv(PATH_METRICS, index=True)
-new_fraud_data[FRAUD_FEATURES].to_csv(PATH_TEST_X, index=True)
-new_fraud_data['fraud_bool'].to_csv(PATH_TEST_Y, index=True)
+test_simulation_data_X.to_csv(PATH_TEST_X, index=True)
+test_simulation_data_y.to_csv(PATH_TEST_Y, index=True)
 train_X.to_csv(PATH_TRAIN_X, index=True)
 
 with open(PATH_BEST_THRESHOLD, "w") as f:
