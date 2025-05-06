@@ -24,7 +24,7 @@ def print_feature_info():
 
 
 # Load the data
-reference_fraud_data = pd.read_csv('../data/Reference.csv')
+reference_fraud_data = pd.read_csv('../data/Reference.csv').head(100000)
 new_fraud_data = pd.read_csv('../data/NewData.csv')
 
 
