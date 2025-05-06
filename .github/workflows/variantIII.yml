@@ -4,7 +4,7 @@ name: CI  Variant III
 
 # Controls when the workflow will run
 on:
-    workflow_run:
+  workflow_run:
     workflows: [ "CI Variant II" ]
     types:
       - completed
