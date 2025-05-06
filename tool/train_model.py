@@ -24,7 +24,7 @@ def print_feature_info():
 
 
 # Load the data
-reference_fraud_data = pd.read_csv('../data/Reference.csv').head(100000)
+reference_fraud_data = pd.read_csv('../data/Reference.csv')
 new_fraud_data = pd.read_csv('../data/NewData.csv')
 
 
@@ -85,8 +85,8 @@ best_threshold = best_f1Score[0]
 precision_list = []
 recall_list = []
 
-test_simulation_data_X = pd.concat([test_X[TEST_SIZE:], new_fraud_data[FRAUD_FEATURES].head(TEST_SIZE)], ignore_index=True)
-test_simulation_data_y = pd.concat([test_y[TEST_SIZE:], new_fraud_data['fraud_bool'].head(TEST_SIZE)], ignore_index=True)
+test_simulation_data_X = pd.concat([test_X[TEST_SIZE:TEST_SIZE*2], new_fraud_data[FRAUD_FEATURES].head(TEST_SIZE)], ignore_index=True)
+test_simulation_data_y = pd.concat([test_y[TEST_SIZE:TEST_SIZE*2], new_fraud_data['fraud_bool'].head(TEST_SIZE)], ignore_index=True)
 
 for i in range(0, len(test_simulation_data_X), CHUNK_SIZE):
     print("Processing chunk: ", i // CHUNK_SIZE, "////////////////////////////////////////")
