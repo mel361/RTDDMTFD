@@ -76,6 +76,11 @@ jobs:
         working-directory: ./tool
         run: |
           python full-batch_monitoring_tool.py
+
+      - name: Run result comparison script
+        working-directory: ./tool
+        run: |
+          python compare_results.py
           
       - name: Upload comparison graphs
         uses: actions/upload-artifact@v4
