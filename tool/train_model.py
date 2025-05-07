@@ -85,8 +85,8 @@ best_threshold = best_f1Score[0]
 precision_list = []
 recall_list = []
 
-test_simulation_data_X = pd.concat([test_X[TEST_SIZE:], new_fraud_data[FRAUD_FEATURES].head(TEST_SIZE*4)], ignore_index=True)
-test_simulation_data_y = pd.concat([test_y[TEST_SIZE:], new_fraud_data['fraud_bool'].head(TEST_SIZE*4)], ignore_index=True)
+test_simulation_data_X = pd.concat([test_X[TEST_SIZE:], new_fraud_data[FRAUD_FEATURES]], ignore_index=True)
+test_simulation_data_y = pd.concat([test_y[TEST_SIZE:], new_fraud_data['fraud_bool']], ignore_index=True)
 
 for i in range(0, len(test_simulation_data_X), CHUNK_SIZE):
     print("Processing chunk: ", i // CHUNK_SIZE, "////////////////////////////////////////")
