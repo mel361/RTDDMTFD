@@ -22,7 +22,8 @@ FRAUD_FEATURES = [
     'current_address_months_count',
     'customer_age',
     'days_since_request',
-    'intended_balcon_amount'
+    'intended_balcon_amount',
+    'zip_count_4w'
 ]
 
 # File paths for input and output data used in the monitoring tool.
