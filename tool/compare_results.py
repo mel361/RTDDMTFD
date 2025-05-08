@@ -22,7 +22,7 @@ precision = metrics["precision"]
 recall = metrics["recall"]
 
 # Output-map
-output_dir = f"..\\{VARIANT_NAME}\\output_graphs\\comparison\\"
+output_dir = os.path.join(script_dir, '..', VARIANT_NAME, 'output_graphs', 'comparison')
 os.makedirs(output_dir, exist_ok=True)
 
 # ---- Comparison Drift vs Precision ----
