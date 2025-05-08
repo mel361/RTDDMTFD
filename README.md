@@ -18,36 +18,73 @@ Clone the repository:
 ```bash
 git clone https://github.com/https://github.com/mel361/RTDDMTFD
 ```
+Intall dependencies
+```bash
+pip install -r requirements.txt
+```
 ## Usage
-1. Train the model and find the best threshold:
+1. Create mandatory directories
+```bash
+python directory_setup.py
+```
+
+2. Train the model and find the best threshold:
 ```bash
 python train_model.py
 ```
 
-2. Run Full Batch Monitoring:
+3. Run Full Batch Monitoring:
 ```bash
 python full-batch_monitoring.py
 ```
 
-3. Run Micro Batch Monitoring:
+4. Run Micro Batch Monitoring:
 ```bash
 python micro-batch_monitoring_tool.py
 ```
 
-Results such as drift statistics, precision/recall scores, and graphs are saved to the /statistics/ directory.
+5. Compare the results from full-batch and micro-batch
+```bash
+python compare_results.py
+```
 
-### Requirements
-- Python 3.10+
+Results such as graphs are saved to the <VARIANT_NAME>/output_graphs/full-batch respective <VARIANT_NAME>/output_graphs/full-batch directories.
+
+## Continuous Integration (CI)
+This project uses **GitHub Actions** to automate testing and monitoring workflows.
+The pipeline does the following:
+
+- Sets up a clean virutal Ubuntu enviroment
+- Sets up python
+- Installs dependencies
+- Downloads the dataset
+- Runs directory setup script
+- Runs the training script
+- Runs both micro-batch and full-batch monitoring tools
+- Runs script for result comparison
+
+The workflow is triggered on:
+
+- Push or pull request events to the feature_drift_correlation branch
+- Manual trigger via the **GitHub Actions** tab
+
+Workflow file: .github/workflows/variant.yml
+
+## Requirements
+- Python 3.10
 - scikit-learn
-- pandas, numpy
-- matplotlib, seaborn
+- pandas
+- numpy
+- matplotlib
+- seaborn
 - evidently
 - imbalanced-learn
 
-### System Overview
+## System Overview
 The tool simulates real-time monitoring using batch and micro-batch processing:
 
 - Full batches analyze accumulated data at each monitoring point.
 - Micro-batches analyze smaller windows of recent data.
 - Drift detection is performed feature-wise with Evidently AI.
-- Performance (precision and recall) is correlated to detected drift over time.
+- Performance (precision and recall) is correlated to overall detected drift over time aswell as feature-wise.
+- Results är visualized by graphs.
