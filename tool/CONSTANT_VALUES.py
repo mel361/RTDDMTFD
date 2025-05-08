@@ -23,7 +23,7 @@ FRAUD_FEATURES = [
     'customer_age',
     'days_since_request',
     'intended_balcon_amount',
-    'zip_count_4w'
+
 ]
 
 
