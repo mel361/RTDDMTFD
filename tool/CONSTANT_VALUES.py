@@ -49,23 +49,15 @@ PATH_FULL_BATCH_TOOL_STATISTICS_DETECTION_IDS = os.path.join(script_dir, '..', V
 PATH_MICRO_BATCH_TOOL_STATISTICS_DETECTION_IDS = os.path.join(script_dir, '..', VARIANT_NAME, 'statistics', 'micro_batch_tool_statistics', 'detection_ids.csv')
 
 # Paths for micro output graphs to be stored.
-PATH_MICRO = os.path.join(script_dir, '..', VARIANT_NAME, 'output_graphs', 'micro-batch')
-PATH_GRAPH_MICRO_ITERATIONS = os.path.join(PATH_MICRO, 'iteration_times.png')
-PATH_GRAPH_MICRO_FULL_TIME = os.path.join(PATH_MICRO, 'full_time.png')
-PATH_GRAPH_MICRO_PRECISION_TREND = os.path.join(PATH_MICRO, 'drift_vs_precision.png')
-PATH_GRAPH_MICRO_RECALL_TREND = os.path.join(PATH_MICRO, 'drift_vs_recall.png')
-PATH_GRAPH_MICRO_FEATURES_PRECISION = os.path.join(PATH_MICRO, '_drift_vs_precision.png')
-PATH_GRAPH_MICRO_FEATURES_RECALL = os.path.join(PATH_MICRO, '_drift_vs_recall.png')
+PATH_GRAPHS = os.path.join(script_dir, '..', VARIANT_NAME, 'output_graphs', 'comparison')
+PATH_GRAPH_ITERATIONS = os.path.join(PATH_GRAPHS, 'iteration_times.png')
+PATH_GRAPH_FULL_TIME = os.path.join(PATH_GRAPHS, 'full_time.png')
+PATH_GRAPH_PRECISION_TREND = os.path.join(PATH_GRAPHS, 'drift_vs_precision.png')
+PATH_GRAPH_RECALL_TREND = os.path.join(PATH_GRAPHS, 'drift_vs_recall.png')
+PATH_GRAPH_FEATURES_PRECISION = os.path.join(PATH_GRAPHS, '_drift_vs_precision.png')
+PATH_GRAPH_FEATURES_RECALL = os.path.join(PATH_GRAPHS, '_drift_vs_recall.png')
 
 
-# Paths for full output graphs to be stored.
-PATH_FULL = os.path.join(script_dir, '..', VARIANT_NAME, 'output_graphs', 'full-batch')
-PATH_GRAPH_FULL_ITERATIONS = os.path.join(PATH_FULL, 'iteration_times.png')
-PATH_GRAPH_FULL_FULL_TIME = os.path.join(PATH_FULL, 'full_time.png')
-PATH_GRAPH_FULL_PRECISION_TREND = os.path.join(PATH_FULL, 'drift_vs_precision.png')
-PATH_GRAPH_FULL_RECALL_TREND = os.path.join(PATH_FULL, 'drift_vs_recall.png')
-PATH_GRAPH_FULL_FEATURES_PRECISION = os.path.join(PATH_FULL, '_drift_vs_precision.png')
-PATH_GRAPH_FULL_FEATURES_RECALL = os.path.join(PATH_FULL, '_drift_vs_recall.png')
 
 
 
