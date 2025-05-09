@@ -18,6 +18,7 @@ Clone the repository:
 ```bash
 git clone https://github.com/mel361/RTDDMTFD
 ```
+
 Move to directory
 ```bash
 cd RTDDMTFD
@@ -56,7 +57,6 @@ cd tool
 ```bash
 python directory_setup.py
 ```
-
 
 5. Train the model and find the best threshold:
 ```bash
@@ -109,6 +109,7 @@ Workflow file: .github/workflows/variant.yml
 - seaborn
 - evidently
 - imbalanced-learn
+- 7-zip
 
 ## System Overview
 The tool simulates real-time monitoring using batch and micro-batch processing:
