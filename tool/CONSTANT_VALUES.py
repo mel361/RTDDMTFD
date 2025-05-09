@@ -16,7 +16,6 @@ TEST_ITERATIONS = 1
 
 # List of features used for fraud detection. Drift will be monitored for these features.
 FRAUD_FEATURES = [
-    "fraud_bool",
     "income",
     "name_email_similarity",
     "prev_address_months_count",
