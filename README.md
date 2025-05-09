@@ -16,17 +16,48 @@ The project uses the **Evidently AI** framework and Random Forest models to dete
 ## Installation
 Clone the repository:
 ```bash
-git clone https://github.com/https://github.com/mel361/RTDDMTFD
+git clone https://github.com/mel361/RTDDMTFD
 ```
+Move to directory
+```bash
+cd RTDDMTFD
+```
+
 Intall dependencies
 ```bash
 pip install -r requirements.txt
 ```
 ## Usage
-1. Create mandatory directories
+
+Download Reference dataset. 
+```bash
+curl -L -o Base.zip https://github.com/mel361/RTDDMTFD/releases/download/v1.0-data/Base.zip
+7z x Base.zip -odata
+move data\Base.csv data\Reference.csv
+```
+
+Download Variant dataset. NOTE! Replace <VARIANT_NAME> with the name of the variant. Existing variants in release v1.0-data are:
+- VariantI
+- VariantII
+- VariantIII
+- VariantIV
+- VariantV
+```bash
+curl -L -o <VARIANT_NAME>.zip https://github.com/mel361/RTDDMTFD/releases/download/v1.0-data/<VARIANT_NAME>.zip
+7z x <VARIANT_NAME>.zip -odata
+move data\<VARIANT_NAME>.csv data\NewData.csv
+```
+
+Move to tool directory
+```bash
+cd tool
+```
+
+Create mandatory directories
 ```bash
 python directory_setup.py
 ```
+
 
 2. Train the model and find the best threshold:
 ```bash
