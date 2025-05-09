@@ -32,7 +32,7 @@ y = reference_fraud_data['fraud_bool']
 X = reference_fraud_data[FRAUD_FEATURES]
 
 # Split the data into training and testing sets
-train_size = int(len(X) * 0.6)
+train_size = int(len(X) * 0.5)
 
 train_X, test_X, train_y, test_y = sklearn.model_selection.train_test_split(X, y, train_size=train_size, random_state=42)
 
@@ -84,8 +84,8 @@ precision_list = []
 recall_list = []
 
 sampled_new_data = new_fraud_data.head(300000)
-test_simulation_data_X = pd.concat([test_X[TEST_SIZE:], sampled_new_data[FRAUD_FEATURES]], ignore_index=True)
-test_simulation_data_y = pd.concat([test_y[TEST_SIZE:], sampled_new_data['fraud_bool']], ignore_index=True)
+test_simulation_data_X = pd.concat([test_X[TEST_SIZE:TEST_SIZE], sampled_new_data[FRAUD_FEATURES]], ignore_index=True)
+test_simulation_data_y = pd.concat([test_y[TEST_SIZE:TEST_SIZE], sampled_new_data['fraud_bool']], ignore_index=True)
 
 for i in range(0, len(test_simulation_data_X), CHUNK_SIZE):
     print("Processing chunk: ", i // CHUNK_SIZE, "////////////////////////////////////////")
