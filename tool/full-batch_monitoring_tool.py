@@ -21,6 +21,8 @@ test_X = pd.read_csv(PATH_TEST_X, index_col=0)
 test_y = pd.read_csv(PATH_TEST_Y, index_col=0)
 train_X = pd.read_csv(PATH_TRAIN_X, index_col=0)
 print("Data imported")
+print(test_X.head())
+print(train_X.head())
 
 # Import threshold
 with open(PATH_BEST_THRESHOLD) as f:
