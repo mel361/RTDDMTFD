@@ -24,7 +24,7 @@ def print_feature_info():
 
 
 # Load the data
-reference_fraud_data = pd.read_csv(PATH_REFERENCE_DATASET)
+reference_fraud_data = pd.read_csv(PATH_REFERENCE_DATASET).head(100000)
 new_fraud_data = pd.read_csv(PATH_NEW_DATASET)
 reference_fraud_data.info()
 
@@ -85,7 +85,7 @@ best_threshold = best_f1Score[0]
 precision_list = []
 recall_list = []
 
-sampled_new_data = new_fraud_data.sample(n=300000, random_state=42)
+sampled_new_data = new_fraud_data.head(300000)
 test_simulation_data_X = pd.concat([test_X[TEST_SIZE:], sampled_new_data[FRAUD_FEATURES]], ignore_index=True)
 test_simulation_data_y = pd.concat([test_y[TEST_SIZE:], sampled_new_data['fraud_bool']], ignore_index=True)
 

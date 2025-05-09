@@ -90,11 +90,12 @@ for i in range(TEST_ITERATIONS):
                     drift_score = feature_data["drift_score"]
                     chunk_drift_scores.append(drift_score)
                     per_feature_chunk_drift[feature_name].append(drift_score)
-                    if drift_score > 0.1:
-                        time_drift_detected = time.time() - full_timer_start
-                        drift_start_id = n
-                        print(f"⚠️ Drift in '{feature_name}': {drift_score:.3f}")
-                        data_drift = True
+                    threshold = feature_data.get("threshold", None)
+                    if threshold is not None:
+                        if drift_score > threshold:
+                            time_drift_detected = time.time() - full_timer_start
+                            print(f"⚠️ Drift in '{feature_name}': {drift_score:.3f} > threshold {threshold:.3f}")
+                            data_drift = True
 
 
         if not data_drift:
