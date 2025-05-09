@@ -26,7 +26,7 @@ def print_feature_info():
 # Load the data
 reference_fraud_data = pd.read_csv(PATH_REFERENCE_DATASET)
 new_fraud_data = pd.read_csv(PATH_NEW_DATASET)
-
+reference_fraud_data.info()
 
 
 # Split the data into features and target variable
