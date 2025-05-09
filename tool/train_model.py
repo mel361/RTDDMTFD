@@ -34,7 +34,7 @@ y = reference_fraud_data['fraud_bool']
 X = reference_fraud_data[FRAUD_FEATURES]
 
 # Split the data into training and testing sets
-train_size = int(len(X) * 0.8)
+train_size = int(len(X) * 0.7)
 
 train_X, test_X, train_y, test_y = sklearn.model_selection.train_test_split(X, y, train_size=train_size, random_state=42)
 

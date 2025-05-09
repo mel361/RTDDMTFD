@@ -9,7 +9,7 @@ VARIANT_NAME = os.getenv("VARIANT_NAME", "NOT DEFINED") # The Name of the varian
 CHUNK_SIZE = 4000
 
 # Amount of data to be used for testing. This is the size of the test dataset for finding best f1-score
-TEST_SIZE = 100000
+TEST_SIZE = 150000
 
 # Number of tests for each monitoring tool. This is used to simulate multiple runs of the monitoring process.
 TEST_ITERATIONS = 1
