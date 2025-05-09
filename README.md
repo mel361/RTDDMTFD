@@ -28,15 +28,14 @@ Intall dependencies
 pip install -r requirements.txt
 ```
 ## Usage
-
-Download Reference dataset. 
+1. Download Reference dataset. 
 ```bash
 curl -L -o Base.zip https://github.com/mel361/RTDDMTFD/releases/download/v1.0-data/Base.zip
 7z x Base.zip -odata
 move data\Base.csv data\Reference.csv
 ```
 
-Download Variant dataset. NOTE! Replace <VARIANT_NAME> with the name of the variant. Existing variants in release v1.0-data are:
+2. Download Variant dataset. NOTE! Replace <VARIANT_NAME> with the name of the variant. Existing variants in release v1.0-data are:
 - VariantI
 - VariantII
 - VariantIII
@@ -48,33 +47,33 @@ curl -L -o <VARIANT_NAME>.zip https://github.com/mel361/RTDDMTFD/releases/downlo
 move data\<VARIANT_NAME>.csv data\NewData.csv
 ```
 
-Move to tool directory
+3. Move to tool directory
 ```bash
 cd tool
 ```
 
-Create mandatory directories
+4. Create mandatory directories
 ```bash
 python directory_setup.py
 ```
 
 
-2. Train the model and find the best threshold:
+5. Train the model and find the best threshold:
 ```bash
 python train_model.py
 ```
 
-3. Run Full Batch Monitoring:
+6. Run Full Batch Monitoring:
 ```bash
 python full-batch_monitoring.py
 ```
 
-4. Run Micro Batch Monitoring:
+7. Run Micro Batch Monitoring:
 ```bash
 python micro-batch_monitoring_tool.py
 ```
 
-5. Compare the results from full-batch and micro-batch
+8. Compare the results from full-batch and micro-batch
 ```bash
 python compare_results.py
 ```
