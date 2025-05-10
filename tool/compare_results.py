@@ -130,8 +130,8 @@ plt.close()
 
 # ---- Features drifting per chunk comparison ----
 plt.figure(figsize=(8, 5))
-plt.plot(micro_batch_features_drifing_per_chunk["Features drifting per chunk"], label="Micro-batch", marker="o")
-plt.plot(full_batch_features_drifing_per_chunk["Features drifting per chunk"], label="Full-batch", marker="o", color="orange")
+plt.plot(micro_batch_features_drifing_per_chunk["Features drifting"], label="Micro-batch", marker="o")
+plt.plot(full_batch_features_drifing_per_chunk["Features drifting"], label="Full-batch", marker="o", color="orange")
 plt.xlabel("Chunk index")
 plt.ylabel("Features Drifting per Chunk")
 plt.title("Features Drifting per Chunk: Micro vs Full")
