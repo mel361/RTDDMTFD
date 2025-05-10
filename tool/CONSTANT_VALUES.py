@@ -63,7 +63,8 @@ PATH_FULL_BATCH_TOOL_STATISTICS_ITERATION_TIMES = os.path.join(script_dir, '..',
 PATH_MICRO_BATCH_TOOL_STATISTICS_ITERATION_TIMES = os.path.join(script_dir, '..', VARIANT_NAME, 'statistics', 'micro_batch_tool_statistics', 'iteration_times.csv')
 PATH_FULL_BATCH_TOOL_STATISTICS_DETECTION_IDS = os.path.join(script_dir, '..', VARIANT_NAME, 'statistics', 'full_batch_tool_statistics', 'detection_ids.csv')
 PATH_MICRO_BATCH_TOOL_STATISTICS_DETECTION_IDS = os.path.join(script_dir, '..', VARIANT_NAME, 'statistics', 'micro_batch_tool_statistics', 'detection_ids.csv')
-
+PATH_FULL_BATCH_TOOL_STATISTICS_FEATURES_DRIFTING = os.path.join(script_dir, '..', VARIANT_NAME, 'statistics', 'full_batch_tool_statistics', 'features_drifting.csv')
+PATH_MICRO_BATCH_TOOL_STATISTICS_FEATURES_DRIFTING = os.path.join(script_dir, '..', VARIANT_NAME, 'statistics', 'micro_batch_tool_statistics', 'features_drifting.csv')
 
 
 

@@ -16,6 +16,8 @@ micro_batch_drift_detection_times = pd.read_csv(PATH_MICRO_BATCH_TOOL_STATISTICS
 full_batch_drift_detection_times = pd.read_csv(PATH_FULL_BATCH_TOOL_STATISTICS_DETECTION_TIMES)
 micro_batch_drift_detection_ids = pd.read_csv(PATH_MICRO_BATCH_TOOL_STATISTICS_DETECTION_IDS)
 full_batch_drift_detection_ids = pd.read_csv(PATH_FULL_BATCH_TOOL_STATISTICS_DETECTION_IDS)
+micro_batch_features_drifing_per_chunk = pd.read_csv(PATH_MICRO_BATCH_TOOL_STATISTICS_FEATURES_DRIFTING)
+full_batch_features_drifing_per_chunk = pd.read_csv(PATH_FULL_BATCH_TOOL_STATISTICS_FEATURES_DRIFTING)
 
 # Extract precision and recall from the metrics DataFrame
 precision = metrics["precision"]
@@ -122,5 +124,20 @@ plt.legend()
 plt.grid(True)
 plt.tight_layout()
 plt.savefig(os.path.join(output_dir, "drift_detection_ids_comparison.png"))
+plt.show()
+plt.close()
+
+
+# ---- Features drifting per chunk comparison ----
+plt.figure(figsize=(8, 5))
+plt.plot(micro_batch_features_drifing_per_chunk["Features drifting per chunk"], label="Micro-batch", marker="o")
+plt.plot(full_batch_features_drifing_per_chunk["Features drifting per chunk"], label="Full-batch", marker="o", color="orange")
+plt.xlabel("Chunk index")
+plt.ylabel("Features Drifting per Chunk")
+plt.title("Features Drifting per Chunk: Micro vs Full")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.savefig(os.path.join(output_dir, "features_drifting_per_chunk_comparison.png"))
 plt.show()
 plt.close()

@@ -44,7 +44,6 @@ drift_start_ids = []
 all_iteration_times = {}
 micro_batch_drift_values = {}
 micro_batch_feature_drift_values = {feature: {} for feature in FRAUD_FEATURES}
-
 for i in range(TEST_ITERATIONS):
     # Set the chunk size
     chunk_size = CHUNK_SIZE
@@ -52,9 +51,8 @@ for i in range(TEST_ITERATIONS):
     print("Test: ", i)
     full_timer_start = time.time()
     time_drift_detected = 0
-
+    total_features_drifting_list = []
     drift_start_id = 0
-
     # Initialize a list to store iteration times
     iteration_times = []
     per_chunk_drift = []
@@ -64,7 +62,7 @@ for i in range(TEST_ITERATIONS):
         iteration_time = time.time()
         print("Processing chunk: ", n, "////////////////////////////////////////")
         current_batch = test_X.iloc[j:j + chunk_size]
-
+        features_drifting = 0
 
         # Empty lists to store drift scores
         micro_batch_drift_scores = []
@@ -76,6 +74,9 @@ for i in range(TEST_ITERATIONS):
             column_mapping=column_mapping
         )
         result_micro_batch = report.as_dict()
+
+
+        report.save_html(f"report_{n}.html")
 
         chunk_drift_scores = []
         data_drift = False
@@ -97,6 +98,7 @@ for i in range(TEST_ITERATIONS):
                         if drift_score > threshold:
                             time_drift_detected = time.time() - full_timer_start
                             print(f"⚠️ Drift in '{feature_name}': {drift_score:.3f} > threshold {threshold:.3f}")
+                            features_drifting += 1
                             data_drift = True
 
 
@@ -107,6 +109,7 @@ for i in range(TEST_ITERATIONS):
         per_chunk_drift.append(np.mean(chunk_drift_scores)) if chunk_drift_scores else 0
         n += 1
         iteration_times.append(time.time() - iteration_time)
+        total_features_drifting_list.append(features_drifting)
 
 
     print("Time drift detected: ", time_drift_detected)
@@ -129,6 +132,7 @@ for i in range(TEST_ITERATIONS):
 
     drift_detection_time.append(time_drift_detected)
     drift_start_ids.append(drift_start_id)
+
 
 
 
@@ -171,3 +175,6 @@ pd.DataFrame({"Iteration times": mean_iteration_times}).to_csv(PATH_MICRO_BATCH_
 
 # Save drift detection ids
 pd.DataFrame({"Drift detection ids": drift_start_ids}).to_csv(PATH_MICRO_BATCH_TOOL_STATISTICS_DETECTION_IDS, index=False)
+
+# Save the number of features drifting per chunk
+pd.DataFrame({"Features drifting": total_features_drifting_list}).to_csv(PATH_MICRO_BATCH_TOOL_STATISTICS_FEATURES_DRIFTING, index=False)
