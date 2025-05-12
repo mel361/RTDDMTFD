@@ -206,7 +206,7 @@ for feature in FRAUD_FEATURES:
         if corr > 0:
             statistic_test_results["Recall correlation type"].append("Positive")
         else:
-            statistic_test_results[""].append("Negative")
+            statistic_test_results["Recall correlation type"].append("Negative")
     else:
         statistic_test_results["Recall significant?"].append("No")
     statistic_test_results["Recall correlation type"].append("Not significant")
