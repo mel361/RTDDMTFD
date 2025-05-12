@@ -89,7 +89,7 @@ for i in range(TEST_ITERATIONS):
                     drift_score = feature_data["drift_score"]
                     chunk_drift_scores.append(drift_score)
                     per_feature_chunk_drift[feature_name].append(drift_score)
-                    threshold = feature_data.get("stattest_threshold", None)
+                    threshold = feature_data["stattest_threshold"]
                     print("Threshold: ", threshold)
                     if threshold is not None:
                         if drift_score > threshold:
