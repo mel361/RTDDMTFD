@@ -6,9 +6,9 @@ from CONSTANT_VALUES import *
 dirs_to_create = [
     os.path.join(script_dir, '..', VARIANT_NAME, 'statistics', 'micro_batch_tool_statistics'),
     os.path.join(script_dir, '..', VARIANT_NAME, 'statistics', 'full_batch_tool_statistics'),
-    os.path.join(PATH_OUTPUT_GRAPHS_COMPARISON),
-    os.path.join(PATH_OUTPUT_MICRO_COMPARISON),
-    os.path.join(PATH_OUTPUT_FULL_COMPARISON),
+    PATH_OUTPUT_GRAPHS_COMPARISON,
+    PATH_OUTPUT_MICRO_COMPARISON,
+    PATH_OUTPUT_FULL_COMPARISON
 ]
 
 
