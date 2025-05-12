@@ -9,20 +9,6 @@ from sklearn.metrics import precision_score, recall_score, f1_score
 
 from CONSTANT_VALUES import *
 
-
-# Function to print feature information
-def print_feature_info():
-    missing = reference_fraud_data.isnull().sum()
-    print("\nMissing values per column:\n", missing)
-    print("\nMissing value percentage per column:\n", (reference_fraud_data.isnull().mean() * 100).round(2))
-
-    duplicates = reference_fraud_data.duplicated().sum()
-    print(f"Number of duplicated rows: {duplicates}")
-
-    print("\nData types:\n", X.dtypes)
-
-
-
 # Load the data
 reference_fraud_data = pd.read_csv(PATH_REFERENCE_DATASET)
 new_fraud_data = pd.read_csv(PATH_NEW_DATASET)

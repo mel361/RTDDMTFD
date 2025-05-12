@@ -76,8 +76,6 @@ for i in range(TEST_ITERATIONS):
         result_micro_batch = report.as_dict()
 
 
-        report.save_html(f"report_{n}.html")
-
         chunk_drift_scores = []
         data_drift = False
 
@@ -88,12 +86,11 @@ for i in range(TEST_ITERATIONS):
             if metric["metric"] == "DataDriftTable":
                 drift_by_columns = metric["result"].get("drift_by_columns", {})
                 for feature_name, feature_data in drift_by_columns.items():
-                    print(feature_data)
                     drift_score = feature_data["drift_score"]
                     chunk_drift_scores.append(drift_score)
                     per_feature_chunk_drift[feature_name].append(drift_score)
                     threshold = feature_data.get("stattest_threshold", None)
-                    print(threshold)
+                    print("Threshold: ", threshold)
                     if threshold is not None:
                         if drift_score > threshold:
                             time_drift_detected = time.time() - full_timer_start
