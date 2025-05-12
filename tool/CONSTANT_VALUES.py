@@ -18,7 +18,7 @@ TEST_ITERATIONS = 1
 FRAUD_FEATURES = [
     "income",
     "name_email_similarity",
- #   "prev_address_months_count",
+    "prev_address_months_count",
     "current_address_months_count",
     "customer_age",
     "days_since_request",
@@ -33,12 +33,12 @@ FRAUD_FEATURES = [
     "email_is_free",
     "phone_home_valid",
     "phone_mobile_valid",
- #   "bank_months_count",
+    "bank_months_count",
     "has_other_cards",
     "proposed_credit_limit",
     "foreign_request",
     "session_length_in_minutes",
- #   "keep_alive_session",
+    "keep_alive_session",
     "device_distinct_emails_8w"
 ]
 
