@@ -72,8 +72,8 @@ PATH_OUTPUT_MICRO_COMPARISON = os.path.join(script_dir, '..', VARIANT_NAME, 'out
 PATH_OUTPUT_FULL_COMPARISON = os.path.join(script_dir, '..', VARIANT_NAME, 'output_graphs', 'full_batch_tool_statistics'),
 
 # Path to the statistic tests csv
-PATH_STATISTIC_TESTS_MICRO = os.path.join(PATH_OUTPUT_MICRO_COMPARISON, "statistic_tests.csv")
-PATH_STATISTIC_TESTS_FULL = os.path.join(PATH_OUTPUT_FULL_COMPARISON, "statistic_tests.csv")
+PATH_STATISTIC_TESTS_MICRO = os.path.join(*PATH_OUTPUT_MICRO_COMPARISON, "statistic_tests.csv")
+PATH_STATISTIC_TESTS_FULL = os.path.join(*PATH_OUTPUT_FULL_COMPARISON, "statistic_tests.csv")
 
 
 
