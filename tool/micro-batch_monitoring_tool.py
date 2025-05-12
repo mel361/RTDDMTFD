@@ -151,13 +151,68 @@ mean_feature_drift_per_chunk = {
 }
 
 # Correlation tests
-statistic_tests.correlation_test(precision_list, mean_drift_per_chunk, "precision", "micro-batch mean")
-statistic_tests.correlation_test(recall_list, mean_drift_per_chunk, "recall", "micro-batch mean")
+statistic_test_results = {"Name": [], "Precision test name": [], "Precision p-value": [], "Precision significant?": [], "Precision correlation": [],
+                          "Precision correlation type": [],"Recall test name" : [], "Recall p-value": [], "Recall significant?": [], "Recall correlation": [],
+                          "Recall correlation type": []}
+
+statistic_test_results["Name"].append("Micro-batch mean")
+corr, pval, test_name = statistic_tests.correlation_test(precision_list, mean_drift_per_chunk, "precision", "micro-batch mean")
+statistic_test_results["Precision p-value"].append(pval)
+statistic_test_results["Precision correlation"].append(corr)
+statistic_test_results["Precision test name"].append(test_name)
+if pval < 0.05:
+    statistic_test_results["Precision significant?"].append("Yes")
+    if corr > 0:
+        statistic_test_results["Precision correlation type"].append("Positive")
+    else:
+        statistic_test_results["Precision correlation type"].append("Negative")
+else:
+    statistic_test_results["Precision significant?"].append("No")
+    statistic_test_results["Precision correlation type"].append("Not significant")
+
+corr, pval, test_name = statistic_tests.correlation_test(recall_list, mean_drift_per_chunk, "recall", "micro-batch mean")
+statistic_test_results["Recall p-value"].append(pval)
+statistic_test_results["Recall correlation"].append(corr)
+statistic_test_results["Recall test name"].append(test_name)
+if pval < 0.05:
+    statistic_test_results["Recall significant?"].append("Yes")
+    if corr > 0:
+        statistic_test_results["Recall correlation type"].append("Positive")
+    else:
+        statistic_test_results["Recall correlation type"].append("Negative")
+else:
+    statistic_test_results["Recall significant?"].append("No")
+    statistic_test_results["Recall correlation type"].append("Not significant")
 
 for feature in FRAUD_FEATURES:
-    statistic_tests.correlation_test(precision_list, mean_feature_drift_per_chunk[feature], "precision", f"micro-batch {feature}")
-    statistic_tests.correlation_test(recall_list, mean_feature_drift_per_chunk[feature], "recall", f"micro-batch {feature}")
+    statistic_test_results["Name"].append(feature)
+    corr, pval, test_name = statistic_tests.correlation_test(precision_list, mean_feature_drift_per_chunk[feature], "precision", f"micro-batch {feature}")
+    statistic_test_results["Precision p-value"].append(pval)
+    statistic_test_results["Precision correlation"].append(corr)
+    statistic_test_results["Precision test name"].append(test_name)
+    if pval < 0.05:
+        statistic_test_results["Precision significant?"].append("Yes")
+        if corr > 0:
+            statistic_test_results["Precision correlation type"].append("Positive")
+        else:
+            statistic_test_results["Precision correlation type"].append("Negative")
+    else:
+        statistic_test_results["Precision significant?"].append("No")
+    statistic_test_results["Precision correlation type"].append("Not significant")
 
+    corr, pval, test_name = statistic_tests.correlation_test(recall_list, mean_feature_drift_per_chunk[feature], "recall",f"micro-batch {feature}")
+    statistic_test_results["Recall p-value"].append(pval)
+    statistic_test_results["Recall correlation"].append(corr)
+    statistic_test_results["Recall test name"].append(test_name)
+    if pval < 0.05:
+        statistic_test_results["Recall significant?"].append("Yes")
+        if corr > 0:
+            statistic_test_results["Recall correlation type"].append("Positive")
+        else:
+            statistic_test_results[""].append("Negative")
+    else:
+        statistic_test_results["Recall significant?"].append("No")
+    statistic_test_results["Recall correlation type"].append("Not significant")
 
 # Save the drift values for each feature
 pd.DataFrame({
@@ -178,3 +233,7 @@ pd.DataFrame({"Drift detection ids": drift_start_ids}).to_csv(PATH_MICRO_BATCH_T
 
 # Save the number of features drifting per chunk
 pd.DataFrame({"Features drifting": total_features_drifting_list}).to_csv(PATH_MICRO_BATCH_TOOL_STATISTICS_FEATURES_DRIFTING, index=False)
+
+# Save the statistic test results
+statistic_test_results_df = pd.DataFrame(statistic_test_results)
+statistic_test_results_df.to_csv(PATH_STATISTIC_TESTS_MICRO, index=False)

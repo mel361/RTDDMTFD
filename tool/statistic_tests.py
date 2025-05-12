@@ -1,6 +1,7 @@
 from scipy.stats import spearmanr, shapiro, pearsonr
 
 def correlation_test(list_y, list_x, label_y, label_x):
+    test_name = ""
     stat_x, p_x = shapiro(list_x)
     stat_y, p_y = shapiro(list_y)
 
@@ -10,13 +11,13 @@ def correlation_test(list_y, list_x, label_y, label_x):
 
     if p_x < 0.05 or p_y< 0.05:
         corr, pval = spearmanr(list_x, list_y)
-
+        test_name = "Spearman Rank Correlation Test"
         print("\nSpearman Rank Correlation Test")
         print(f"Correlation coefficient (ρ): {corr:.3f}")
         print(f"p-value: {pval:.4f}")
     else:
         corr, pval = pearsonr(list_x, list_y)
-
+        test_name = "Pearson Correlation Test"
         print("\nPearson Correlation Test")
         print(f"Correlation coefficient (ρ): {corr:.3f}")
         print(f"p-value: {pval:.4f}")
@@ -29,3 +30,6 @@ def correlation_test(list_y, list_x, label_y, label_x):
             print("Negative correlation – higher drift tends to give lower " + label_y + "\n\n")
     else:
         print("No significant correlation (p ≥ 0.05)\n\n")
+
+
+    return corr, pval, test_name

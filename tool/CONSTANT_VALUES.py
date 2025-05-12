@@ -66,8 +66,14 @@ PATH_MICRO_BATCH_TOOL_STATISTICS_DETECTION_IDS = os.path.join(script_dir, '..', 
 PATH_FULL_BATCH_TOOL_STATISTICS_FEATURES_DRIFTING = os.path.join(script_dir, '..', VARIANT_NAME, 'statistics', 'full_batch_tool_statistics', 'features_drifting.csv')
 PATH_MICRO_BATCH_TOOL_STATISTICS_FEATURES_DRIFTING = os.path.join(script_dir, '..', VARIANT_NAME, 'statistics', 'micro_batch_tool_statistics', 'features_drifting.csv')
 
+# Create directories for storing output graphs and statistics
+PATH_OUTPUT_GRAPHS_COMPARISON = os.path.join(script_dir, '..', VARIANT_NAME, 'output_graphs', 'comparison'),
+PATH_OUTPUT_MICRO_COMPARISON = os.path.join(script_dir, '..', VARIANT_NAME, 'output_graphs', 'micro_batch_tool_statistics'),
+PATH_OUTPUT_FULL_COMPARISON = os.path.join(script_dir, '..', VARIANT_NAME, 'output_graphs', 'full_batch_tool_statistics'),
 
-
+# Path to the statistic tests csv
+PATH_STATISTIC_TESTS_MICRO = os.path.join(PATH_OUTPUT_MICRO_COMPARISON, "statistic_tests.csv")
+PATH_STATISTIC_TESTS_FULL = os.path.join(PATH_OUTPUT_FULL_COMPARISON, "statistic_tests.csv")
 
 
 
