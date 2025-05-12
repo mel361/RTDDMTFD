@@ -85,5 +85,8 @@ jobs:
       - name: Upload comparison graphs
         uses: actions/upload-artifact@v4
         with:
-          name: comparison-graphs-${{ matrix.variant }}
-          path: ${{ matrix.variant }}/output_graphs/comparison/
+          name: comparisons-${{ matrix.variant }}
+          path: | 
+            ${{ matrix.variant }}/comparison/graphs
+            ${{ matrix.variant }}/comparison/micro_batch_tool_statistics
+            ${{ matrix.variant }}/comparison/full_batch_tool_statistics
