@@ -195,7 +195,7 @@ for feature in FRAUD_FEATURES:
             statistic_test_results["Precision correlation type"].append("Negative")
     else:
         statistic_test_results["Precision significant?"].append("No")
-    statistic_test_results["Precision correlation type"].append("Not significant")
+        statistic_test_results["Precision correlation type"].append("Not significant")
 
     corr, pval, test_name = statistic_tests.correlation_test(recall_list, mean_feature_drift_per_chunk[feature], "recall",f"micro-batch {feature}")
     statistic_test_results["Recall p-value"].append(pval)
@@ -209,7 +209,7 @@ for feature in FRAUD_FEATURES:
             statistic_test_results["Recall correlation type"].append("Negative")
     else:
         statistic_test_results["Recall significant?"].append("No")
-    statistic_test_results["Recall correlation type"].append("Not significant")
+        statistic_test_results["Recall correlation type"].append("Not significant")
 
 # Save the drift values for each feature
 pd.DataFrame({
@@ -231,6 +231,9 @@ pd.DataFrame({"Drift detection ids": drift_start_ids}).to_csv(PATH_MICRO_BATCH_T
 # Save the number of features drifting per chunk
 pd.DataFrame({"Features drifting": total_features_drifting_list}).to_csv(PATH_MICRO_BATCH_TOOL_STATISTICS_FEATURES_DRIFTING, index=False)
 
+
+for key, val in statistic_test_results.items():
+    print(f"{key}: {len(val)}")
 # Save the statistic test results
 statistic_test_results_df = pd.DataFrame(statistic_test_results)
 statistic_test_results_df.to_csv(PATH_STATISTIC_TESTS_MICRO, index=False)
