@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import sklearn
 from imblearn.over_sampling import SMOTE
+from imblearn.under_sampling import RandomUnderSampler
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import precision_score, recall_score, f1_score
 
@@ -24,11 +25,12 @@ train_X, test_X, train_y, test_y = sklearn.model_selection.train_test_split(X, y
 
 
 # Resample the training data using SMOTE
-
+rus = RandomUnderSampler()
+X_resampled, y_resampled = rus.fit_resample(train_X, train_y)
 
 # Train a Random Forest Classifier
 model = RandomForestClassifier(random_state=42, class_weight='balanced')
-model.fit(train_X, train_y)
+model.fit(X_resampled, y_resampled)
 
 # Print the target counts
 print(train_y.value_counts())
