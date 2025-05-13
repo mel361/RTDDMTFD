@@ -3,7 +3,7 @@ import json
 import numpy as np
 import pandas as pd
 import sklearn
-from imblearn.over_sampling import SMOTE
+from imblearn.over_sampling import SMOTE, ADASYN
 from imblearn.under_sampling import RandomUnderSampler
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import precision_score, recall_score, f1_score
@@ -25,7 +25,7 @@ train_X, test_X, train_y, test_y = sklearn.model_selection.train_test_split(X, y
 
 
 # Resample the training data using SMOTE
-rus = RandomUnderSampler()
+rus = ADASYN()
 X_resampled, y_resampled = rus.fit_resample(train_X, train_y)
 
 # Train a Random Forest Classifier
