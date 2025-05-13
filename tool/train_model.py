@@ -15,7 +15,7 @@ reference_fraud_data = pd.read_csv(PATH_REFERENCE_DATASET)
 new_fraud_data = pd.read_csv(PATH_NEW_DATASET)
 
 # Split the data into features and target variable
-y = reference_fraud_data['fraud_bool']
+y = reference_fraud_data['fraud_bool'].head(TEST_SIZE*2)
 X = reference_fraud_data[FRAUD_FEATURES]
 
 # Split the data into training and testing sets

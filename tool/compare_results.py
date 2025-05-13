@@ -23,9 +23,6 @@ full_batch_features_drifing_per_chunk = pd.read_csv(PATH_FULL_BATCH_TOOL_STATIST
 precision = metrics["precision"]
 recall = metrics["recall"]
 
-# Output-map
-output_dir = os.path.join(script_dir, '..', VARIANT_NAME, 'output_graphs', 'comparison')
-os.makedirs(output_dir, exist_ok=True)
 
 # ---- Comparison Drift vs Precision ----
 plt.figure(figsize=(8, 5))
@@ -37,7 +34,7 @@ plt.title("Drift vs Precision: Micro vs Full")
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig(os.path.join(output_dir, "drift_vs_precision_comparison.png"))
+plt.savefig(os.path.join(PATH_OUTPUT_GRAPHS_COMPARISON, "drift_vs_precision_comparison.png"))
 plt.show()
 plt.close()
 
@@ -51,7 +48,7 @@ plt.title("Drift vs Recall: Micro vs Full")
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig(os.path.join(output_dir, "drift_vs_recall_comparison.png"))
+plt.savefig(os.path.join(PATH_OUTPUT_GRAPHS_COMPARISON, "drift_vs_recall_comparison.png"))
 plt.show()
 plt.close()
 
@@ -67,7 +64,7 @@ for feature in FRAUD_FEATURES:
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig(os.path.join(output_dir, f"{feature}_drift_vs_precision.png"))
+    plt.savefig(os.path.join(PATH_OUTPUT_GRAPHS_COMPARISON, f"{feature}_drift_vs_precision.png"))
     plt.show()
     plt.close()
 
@@ -81,7 +78,7 @@ for feature in FRAUD_FEATURES:
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig(os.path.join(output_dir, f"{feature}_drift_vs_recall.png"))
+    plt.savefig(os.path.join(PATH_OUTPUT_GRAPHS_COMPARISON, f"{feature}_drift_vs_recall.png"))
     plt.show()
     plt.close()
 
@@ -95,7 +92,7 @@ plt.title("Mean Iteration Time per Chunk: Micro vs Full")
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig(os.path.join(output_dir, "iteration_times_comparison.png"))
+plt.savefig(os.path.join(PATH_OUTPUT_GRAPHS_COMPARISON, "iteration_times_comparison.png"))
 plt.show()
 plt.close()
 
@@ -109,7 +106,7 @@ plt.title("Drift Detection Time per Test: Micro-batch vs Full-batch")
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig(os.path.join(output_dir, "drift_detection_times_comparison.png"))
+plt.savefig(os.path.join(PATH_OUTPUT_GRAPHS_COMPARISON, "drift_detection_times_comparison.png"))
 plt.show()
 plt.close()
 
@@ -129,7 +126,7 @@ lines_1, labels_1 = ax1.get_legend_handles_labels()
 lines_2, labels_2 = ax2.get_legend_handles_labels()
 ax1.legend(lines_1 + lines_2, labels_1 + labels_2, loc="upper right")
 plt.tight_layout()
-plt.savefig(os.path.join(output_dir, "features_drifting_and_recall_per_chunk.png"))
+plt.savefig(os.path.join(PATH_OUTPUT_GRAPHS_COMPARISON, "features_drifting_and_recall_per_chunk.png"))
 plt.show()
 plt.close()
 
@@ -149,6 +146,6 @@ lines_1, labels_1 = ax1.get_legend_handles_labels()
 lines_2, labels_2 = ax2.get_legend_handles_labels()
 ax1.legend(lines_1 + lines_2, labels_1 + labels_2, loc="upper right")
 plt.tight_layout()
-plt.savefig(os.path.join(output_dir, "features_drifting_and_precision_per_chunk.png"))
+plt.savefig(os.path.join(PATH_OUTPUT_GRAPHS_COMPARISON, "features_drifting_and_precision_per_chunk.png"))
 plt.show()
 plt.close()
