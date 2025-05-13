@@ -16,15 +16,21 @@ TEST_ITERATIONS = 1
 
 # List of features used for fraud detection. Drift will be monitored for these features.
 FRAUD_FEATURES = [
-    "customer_age",
+    "prev_address_months_count",
     "current_address_months_count",
-    "keep_alive_session",
-    "phone_home_valid",
-    "device_distinct_emails_8w",
+    "customer_age",
     "intended_balcon_amount",
     "zip_count_4w",
+    "velocity_6h",
     "velocity_24h",
-    "bank_months_count"
+    "velocity_4w",
+    "phone_home_valid",
+    "phone_mobile_valid",
+    "bank_months_count",
+    "keep_alive_session",
+    "device_distinct_emails_8w",
+    "foreign_request",
+    "proposed_credit_limit"
 ]
 
 
