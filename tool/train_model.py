@@ -24,12 +24,11 @@ train_X, test_X, train_y, test_y = sklearn.model_selection.train_test_split(X, y
 
 
 # Resample the training data using SMOTE
-smote = SMOTE(random_state=42)
-X_resampled, y_resampled = smote.fit_resample(train_X, train_y)
+
 
 # Train a Random Forest Classifier
 model = RandomForestClassifier(random_state=42, class_weight='balanced')
-model.fit(X_resampled, y_resampled)
+model.fit(train_X, train_y)
 
 # Print the target counts
 print(train_y.value_counts())
@@ -64,7 +63,7 @@ print("Best Precision: ", best_precision[0], "; With Precision: ", best_precisio
 print("Best Recall: ", best_recall[0], "; With Precision: ", best_recall[1], ";  Recall: ", best_recall[2],
       ";  F1: ", best_recall[3])
 
-best_threshold = 0.19
+best_threshold = best_f1Score[0]
 
 precision_list = []
 recall_list = []
