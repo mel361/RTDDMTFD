@@ -16,12 +16,8 @@ TEST_ITERATIONS = 1
 
 # List of features used for fraud detection. Drift will be monitored for these features.
 FRAUD_FEATURES = [
-    "income",
-    "name_email_similarity",
     "prev_address_months_count",
-    "current_address_months_count",
     "customer_age",
-    "days_since_request",
     "intended_balcon_amount",
     "zip_count_4w",
     "velocity_6h",
@@ -29,7 +25,6 @@ FRAUD_FEATURES = [
     "velocity_4w",
     "bank_branch_count_8w",
     "date_of_birth_distinct_emails_4w",
-    "credit_risk_score",
     "email_is_free",
     "phone_home_valid",
     "phone_mobile_valid",
@@ -38,9 +33,9 @@ FRAUD_FEATURES = [
     "proposed_credit_limit",
     "foreign_request",
     "session_length_in_minutes",
-    "keep_alive_session",
-    "device_distinct_emails_8w"
+    "keep_alive_session"
 ]
+
 
 
 PATH_REFERENCE_DATASET =  os.path.join(script_dir, '..', 'data', 'Reference.csv')# Path to the reference dataset used for training the model.
