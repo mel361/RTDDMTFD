@@ -90,7 +90,6 @@ for i in range(TEST_ITERATIONS):
                     chunk_drift_scores.append(drift_score)
                     per_feature_chunk_drift[feature_name].append(drift_score)
                     threshold = feature_data["stattest_threshold"]
-                    print("Threshold: ", threshold)
                     if threshold is not None:
                         if drift_score > threshold:
                             time_drift_detected = time.time() - full_timer_start
