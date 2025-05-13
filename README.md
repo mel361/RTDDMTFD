@@ -53,27 +53,32 @@ move data\<VARIANT_NAME>.csv data\NewData.csv
 cd tool
 ```
 
-4. Create mandatory directories
+4. Set enviroment variable to the wanted Variant name as in step 2
+```bash
+  set VARIANT_NAME=<VARIANT_NAME>
+```
+
+5. Create mandatory directories
 ```bash
 python directory_setup.py
 ```
 
-5. Train the model and find the best threshold:
+6. Train the model and find the best threshold:
 ```bash
 python train_model.py
 ```
 
-6. Run Full Batch Monitoring:
+7. Run Full Batch Monitoring:
 ```bash
 python full-batch_monitoring.py
 ```
 
-7. Run Micro Batch Monitoring:
+8. Run Micro Batch Monitoring:
 ```bash
 python micro-batch_monitoring_tool.py
 ```
 
-8. Compare the results from full-batch and micro-batch
+9. Compare the results from full-batch and micro-batch
 ```bash
 python compare_results.py
 ```
