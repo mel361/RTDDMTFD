@@ -6,7 +6,7 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 VARIANT_NAME = os.getenv("VARIANT_NAME", "NOT DEFINED") # The Name of the variant being monitored. This can be set as an environment variable.
 
 # Number of rows to process in each chunk during batch monitoring.
-CHUNK_SIZE = 8000
+CHUNK_SIZE = 4000
 
 # Amount of data to be used for testing. This is the size of the test dataset for finding best f1-score
 TEST_SIZE = 100000
