@@ -64,7 +64,7 @@ print("Best Precision: ", best_precision[0], "; With Precision: ", best_precisio
 print("Best Recall: ", best_recall[0], "; With Precision: ", best_recall[1], ";  Recall: ", best_recall[2],
       ";  F1: ", best_recall[3])
 
-best_threshold = best_f1Score[0]
+best_threshold = 0.19
 
 precision_list = []
 recall_list = []
