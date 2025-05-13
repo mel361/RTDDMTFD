@@ -11,11 +11,11 @@ from sklearn.metrics import precision_score, recall_score, f1_score
 from CONSTANT_VALUES import *
 
 # Load the data
-reference_fraud_data = pd.read_csv(PATH_REFERENCE_DATASET)
-new_fraud_data = pd.read_csv(PATH_NEW_DATASET)
+reference_fraud_data = pd.read_csv(PATH_NEW_DATASET)
+new_fraud_data = pd.read_csv(PATH_REFERENCE_DATASET)
 
 # Split the data into features and target variable
-y = reference_fraud_data['fraud_bool'].head(TEST_SIZE*2)
+y = reference_fraud_data['fraud_bool']
 X = reference_fraud_data[FRAUD_FEATURES]
 
 # Split the data into training and testing sets
