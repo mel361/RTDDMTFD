@@ -33,14 +33,16 @@ y = target
 
 FRAUD_FEATURES = X.columns.tolist()
 print("Selected features: ", FRAUD_FEATURES)
+
+
+# Split the data into training and testing sets
+temp_train_X, test_X, temp_train_y, test_y = train_test_split(X, y, train_size=0.8, random_state=42)
+
 # Data balancing
 over = SMOTE(sampling_strategy=0.5)
 under = RandomUnderSampler(sampling_strategy=0.1)
 pipeline = Pipeline([('under', under), ('over', over)])
-X_resampled, y_resampled = pipeline.fit_resample(X, y)
-
-# Split the data into training and testing sets
-train_X, test_X, train_y, test_y = train_test_split(X_resampled, y_resampled, train_size=0.5, random_state=42)
+train_X, train_y = pipeline.fit_resample(temp_train_X, temp_train_y)
 
 # Train a Random Forest Classifier
 model = RandomForestClassifier(max_depth=4, random_state=42)
@@ -96,7 +98,7 @@ best_threshold = best_f1Score[0]
 
 precision_list = []
 recall_list = []
-sampled_new_data = new_fraud_data.head(300000)
+sampled_new_data = new_fraud_data.head(400000)
 test_simulation_data_X = pd.concat([test_X.tail(TEST_SIZE), sampled_new_data[FRAUD_FEATURES]], ignore_index=True)
 test_simulation_data_y = pd.concat([test_y.tail(TEST_SIZE), sampled_new_data['fraud_bool']], ignore_index=True)
 
