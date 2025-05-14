@@ -65,7 +65,7 @@ print(metrics_output)
 test_X_prob = test_X.head(TEST_SIZE)
 test_y_prob = test_y.head(TEST_SIZE)
 
-probabilities = model.predict_proba(X)[:, 1]
+probabilities = model.predict_proba(test_X_prob)[:, 1]
 thresholds = np.arange(0.000, 1.000, 0.001)
 
 print(f"{'Threshold':<10} {'Precision':<10} {'Recall':<10} {'F1-score':<10}")
@@ -76,9 +76,9 @@ best_f1Score = (0, 0, 0, 0)
 best_recall = (0, 0, 0, 0)
 for threshold in thresholds:
     predictions = (probabilities > threshold).astype(int)
-    precision = precision_score(y , predictions, zero_division=0)
-    recall = recall_score(y , predictions, zero_division=0)
-    f1 = f1_score(y , predictions, zero_division=0)
+    precision = precision_score(test_y_prob, predictions, zero_division=0)
+    recall = recall_score(test_y_prob, predictions, zero_division=0)
+    f1 = f1_score(test_y_prob, predictions, zero_division=0)
     if f1 > best_f1Score[3]: best_f1Score = (threshold, precision, recall, f1)
     if precision > best_precision[1]: best_precision = (threshold, precision, recall, f1)
     if recall > best_recall[2]: best_recall = (threshold, precision, recall, f1)
@@ -98,8 +98,8 @@ precision_list = []
 recall_list = []
 print("text_x: ", len(test_X))
 sampled_new_data = new_fraud_data
-test_simulation_data_X = pd.concat([X.tail(TEST_SIZE), sampled_new_data[FRAUD_FEATURES]], ignore_index=True)
-test_simulation_data_y = pd.concat([X.tail(TEST_SIZE), sampled_new_data['fraud_bool']], ignore_index=True)
+test_simulation_data_X = pd.concat([test_X.tail(TEST_SIZE), sampled_new_data[FRAUD_FEATURES]], ignore_index=True)
+test_simulation_data_y = pd.concat([test_y.tail(TEST_SIZE), sampled_new_data['fraud_bool']], ignore_index=True)
 print("test_simulation_data_X: ", len(test_simulation_data_X))
 
 for i in range(0, len(test_simulation_data_X), CHUNK_SIZE):
