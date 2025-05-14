@@ -120,7 +120,7 @@ for i in range(TEST_ITERATIONS):
         if not data_drift:
             print("✅ No significant drift detected.")
 
-        print("n: ", n)
+
         per_chunk_drift.append(np.mean(chunk_drift_scores)) if chunk_drift_scores else 0
         n += 1
         iteration_times.append(time.time() - iteration_time)
