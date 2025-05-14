@@ -1,8 +1,14 @@
+import json
+
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
 from CONSTANT_VALUES import *
+
+
+with open(PATH_MODEL_CONFIG) as f:
+    FRAUD_FEATURES = json.load(f)["fraud_features"]
 
 # Load the data
 micro_drift = pd.read_csv(PATH_MICRO_BATCH_TOOL_STATISTICS_MEAN_DRIFTS)

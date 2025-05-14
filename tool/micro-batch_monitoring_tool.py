@@ -23,20 +23,16 @@ train_X = pd.read_csv(PATH_TRAIN_X, index_col=0)
 print("Data imported")
 
 # Import threshold
-with open(PATH_BEST_THRESHOLD) as f:
-    best_threshold = json.load(f)["best_threshold"]
-print("Threshold imported")
+with open(PATH_MODEL_CONFIG) as f:
+    config = json.load(f)
+    best_threshold = config["best_threshold"]
+    FRAUD_FEATURES = config["fraud_features"]
+print("Threshold imported and features loaded")
 
-# Column mapping for Evidently
-column_mapping = ColumnMapping(
-    numerical_features=FRAUD_FEATURES,
-    categorical_features=[],
-)
 # Create a report with DataDriftPreset
 report = Report([
     DataDriftPreset(),
 ])
-
 
 # Initialize lists and dicts
 drift_detection_time = []
@@ -67,18 +63,41 @@ for i in range(TEST_ITERATIONS):
         # Empty lists to store drift scores
         micro_batch_drift_scores = []
 
+        # filter out constant columns
+        constant_cols = current_batch.columns[current_batch.nunique() <= 2].tolist()
+        variable_cols = current_batch.columns[current_batch.nunique() > 2].tolist()
+        print("Constant columns: ", constant_cols)
+        print("Variable columns: ", variable_cols)
+        # Check if the current batch is empty
+        filtered_batch = current_batch[variable_cols]
+        filtered_train_X = train_X[variable_cols]
+        for col in constant_cols:
+            print("\nFiltered batch  ", col, ": ",  current_batch[col].unique())
+            print("\nFiltered train  ", col, ": ",  current_batch[col].unique())
+        # Column mapping for Evidently
+        filtered_column_mapping = ColumnMapping(
+            numerical_features=[col for col in variable_cols],
+            categorical_features=[]
+        )
+
         # Create an Evidently report
         report.run(
-            current_data=current_batch,
-            reference_data=train_X,
-            column_mapping=column_mapping
+            current_data=filtered_batch,
+            reference_data=filtered_train_X,
+            column_mapping=filtered_column_mapping
         )
+        # Get the report
         result_micro_batch = report.as_dict()
 
 
         chunk_drift_scores = []
         data_drift = False
-
+        print(FRAUD_FEATURES)
+        # set constant drift to 0
+        for const_feature in constant_cols:
+            print(f"Constant feature: {const_feature}")
+            chunk_drift_scores.append(0.0)
+            per_feature_chunk_drift[const_feature].append(0.0)
 
         # Check for data drift in the batch
         print("Checking for drift in current batch")

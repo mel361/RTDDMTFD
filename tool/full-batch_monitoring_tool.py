@@ -24,9 +24,11 @@ print("Data imported")
 
 
 # Import threshold
-with open(PATH_BEST_THRESHOLD) as f:
-    best_threshold = json.load(f)["best_threshold"]
-print("Threshold imported")
+with open(PATH_MODEL_CONFIG) as f:
+    config = json.load(f)
+    best_threshold = config["best_threshold"]
+    FRAUD_FEATURES = config["fraud_features"]
+print("Threshold imported and features loaded")
 
 # Column mapping for Evidently
 column_mapping = ColumnMapping(

@@ -14,35 +14,6 @@ TEST_SIZE = 100000
 # Number of tests for each monitoring tool. This is used to simulate multiple runs of the monitoring process.
 TEST_ITERATIONS = 1
 
-# List of features used for fraud detection. Drift will be monitored for these features.
-FRAUD_FEATURES = [
-    "income",
-    "name_email_similarity",
-    "prev_address_months_count",
-    "current_address_months_count",
-    "customer_age",
-    "days_since_request",
-    "intended_balcon_amount",
-    "zip_count_4w",
-    "velocity_6h",
-    "velocity_24h",
-    "velocity_4w",
-    "bank_branch_count_8w",
-    "date_of_birth_distinct_emails_4w",
-    "credit_risk_score",
-    "email_is_free",
-    "phone_home_valid",
-    "phone_mobile_valid",
-    "bank_months_count",
-    "has_other_cards",
-    "proposed_credit_limit",
-    "foreign_request",
-    "session_length_in_minutes",
-    "keep_alive_session",
-    "device_distinct_emails_8w"
-]
-
-
 PATH_REFERENCE_DATASET =  os.path.join(script_dir, '..', 'data', 'Reference.csv')# Path to the reference dataset used for training the model.
 PATH_NEW_DATASET =  os.path.join(script_dir, '..', 'data', 'NewData.csv') # Path to the new dataset used for testing the model.
 
@@ -51,7 +22,7 @@ PATH_TRAIN_X = os.path.join(script_dir, 'model_values', 'train_X.csv')
 PATH_TEST_Y = os.path.join(script_dir, 'model_values', 'test_y.csv')
 PATH_TEST_X = os.path.join(script_dir, 'model_values', 'test_X.csv')
 PATH_METRICS = os.path.join(script_dir, 'model_values', 'metrics.csv')
-PATH_BEST_THRESHOLD = os.path.join(script_dir, 'model_values', 'best_threshold.json')
+PATH_MODEL_CONFIG = os.path.join(script_dir, 'model_values', 'model_config.json')
 
 PATH_FULL_BATCH_TOOL_STATISTICS_MEAN_DRIFTS = os.path.join(script_dir, '..', VARIANT_NAME, 'statistics', 'full_batch_tool_statistics', 'mean_drifts.csv')
 PATH_MICRO_BATCH_TOOL_STATISTICS_MEAN_DRIFTS = os.path.join(script_dir, '..', VARIANT_NAME, 'statistics', 'micro_batch_tool_statistics', 'mean_drifts.csv')
