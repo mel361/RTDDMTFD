@@ -116,6 +116,20 @@ plt.savefig(os.path.join(PATH_OUTPUT_GRAPHS_COMPARISON, "drift_detection_times_c
 plt.show()
 plt.close()
 
+# ---- Drift detection chunk id----
+plt.figure(figsize=(8, 5))
+plt.plot(micro_batch_drift_detection_ids["Drift detection ids"], label="Micro-batch", marker="o")
+plt.plot(full_batch_drift_detection_ids["Drift detection ids"], label="Full-batch", marker="o", color="orange")
+plt.xlabel("Test index")
+plt.ylabel("Drift Detection Chunk ID")
+plt.title("Drift Detection Chunk ID per Test: Micro-batch vs Full-batch")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.savefig(os.path.join(PATH_OUTPUT_GRAPHS_COMPARISON, "drift_detection_chunk_id_comparison.png"))
+plt.show()
+plt.close()
+
 
 # ---- Features Drifting vs Recall per Chunk ----
 fig, ax1 = plt.subplots(figsize=(8, 5))

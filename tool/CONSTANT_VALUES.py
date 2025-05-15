@@ -12,7 +12,7 @@ CHUNK_SIZE = 8000
 TEST_SIZE = 200000
 
 # Number of tests for each monitoring tool. This is used to simulate multiple runs of the monitoring process.
-TEST_ITERATIONS = 20
+TEST_ITERATIONS = 1
 
 PATH_REFERENCE_DATASET =  os.path.join(script_dir, '..', 'data', 'Reference.csv')# Path to the reference dataset used for training the model.
 PATH_NEW_DATASET =  os.path.join(script_dir, '..', 'data', 'NewData.csv') # Path to the new dataset used for testing the model.
