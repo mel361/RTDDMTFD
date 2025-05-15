@@ -35,23 +35,16 @@ FRAUD_FEATURES = X.columns.tolist()
 print("Selected features: ", FRAUD_FEATURES)
 
 
-# Split the data into training and testing sets
-temp_train_X, test_X, temp_train_y, test_y = train_test_split(X, y, train_size=0.6, random_state=42)
-print("Before balancing:")
-print("Train size: ", temp_train_X.shape[0], "Test size: ", test_X.shape[0])
-print("Train fraud size: ", temp_train_y.sum(), "Test fraud size: ", test_y.sum())
-print("Train non-fraud size: ", temp_train_X.shape[0] - temp_train_y.sum(), "Test non-fraud size: ",
-      test_X.shape[0] - test_y.sum())
 
 # Data balancing
 over = SMOTE(sampling_strategy=0.5)
 under = RandomUnderSampler(sampling_strategy=0.1)
 pipeline = Pipeline([('under', under), ('over', over)])
-train_X, train_y = pipeline.fit_resample(temp_train_X, temp_train_y)
-print("After balancing:")
-print(f"Train shape: {train_X.shape}, Test shape: {test_X.shape}")
-print(f"Train fraud shape: {train_y.sum()}, Test fraud shape: {test_y.sum()}")
-print(f"Train non-fraud shape: {train_X.shape[0] - train_y.sum()}, Test non-fraud shape: {test_X.shape[0] - test_y.sum()}")
+temp_train_X, temp_train_y = pipeline.fit_resample(X, y)
+
+
+# Split the data into training and testing sets
+train_X, test_X, train_y, test_y = train_test_split(temp_train_X, temp_train_y, train_size=0.6, random_state=42)
 
 # Train a Random Forest Classifier
 model = RandomForestClassifier(max_depth=4, random_state=42)
