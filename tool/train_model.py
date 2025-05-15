@@ -38,16 +38,19 @@ print("Selected features: ", FRAUD_FEATURES)
 # Split the data into training and testing sets
 temp_train_X, test_X, temp_train_y, test_y = train_test_split(X, y, train_size=0.8, random_state=42)
 
+
 # Data balancing
 over = SMOTE(sampling_strategy=0.5)
 under = RandomUnderSampler(sampling_strategy=0.1)
 pipeline = Pipeline([('under', under), ('over', over)])
 train_X, train_y = pipeline.fit_resample(temp_train_X, temp_train_y)
 
+print(f"Train shape: {train_X.shape}, Test shape: {test_X.shape}")
+
+
 # Train a Random Forest Classifier
 model = RandomForestClassifier(max_depth=4, random_state=42)
 model.fit(train_X, train_y)
-
 
 cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
 cv_score = cross_val_score(model, train_X, train_y, cv=cv, scoring='roc_auc').mean()
