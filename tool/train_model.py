@@ -25,7 +25,7 @@ constant_features = features.columns[features.nunique() < 50]
 features = features.drop(columns=constant_features)
 
 # Feature selection with ANOVA
-selector = SelectKBest(score_func=f_classif, k=20)
+selector = SelectKBest(score_func=f_classif, k=12)
 X_selected = selector.fit_transform(features, target)
 selected_columns = selector.get_support(indices=True)
 X = features.iloc[:, selected_columns]
@@ -34,15 +34,15 @@ y = target
 FRAUD_FEATURES = X.columns.tolist()
 print("Selected features: ", FRAUD_FEATURES)
 
-
-# Split the data into training and testing sets
-temp_train_X, test_X, temp_train_y, test_y = train_test_split(X, y, train_size=0.8, random_state=42)
-
 # Data balancing
 over = SMOTE(sampling_strategy=0.5)
 under = RandomUnderSampler(sampling_strategy=0.1)
 pipeline = Pipeline([('under', under), ('over', over)])
-train_X, train_y = pipeline.fit_resample(temp_train_X, temp_train_y)
+temp_train_X, temp_train_y = pipeline.fit_resample(X, y)
+
+# Split the data into training and testing sets
+train_X, test_X, train_y, test_y = train_test_split(temp_train_X, temp_train_y, train_size=0.8, random_state=42)
+
 
 # Train a Random Forest Classifier
 model = RandomForestClassifier(max_depth=4, random_state=42)
