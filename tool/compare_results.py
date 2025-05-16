@@ -130,16 +130,77 @@ plt.savefig(os.path.join(PATH_OUTPUT_GRAPHS_COMPARISON, "drift_detection_chunk_i
 plt.show()
 plt.close()
 
+# ---- All features and mean drift vs precision ----
+plt.figure(figsize=(10, 6))
+
+# Micro features
+for feature in FRAUD_FEATURES:
+    sns.regplot(x=micro_feature_drift[feature], y=precision, lowess=True, scatter=False, color="green")
+
+# Full features
+for feature in FRAUD_FEATURES:
+    sns.regplot(x=full_feature_drift[feature], y=precision, lowess=True, scatter=False, color="red")
+
+# Mean drift
+sns.regplot(x=micro_drift["Mean drift"], y=precision, lowess=True, scatter=False, color="blue",
+            label="Micro Mean Drift", line_kws={"linewidth": 5.0})
+sns.regplot(x=full_drift["Mean drift"], y=precision, lowess=True, scatter=False, color="orange",
+            label="Full Mean Drift", line_kws={"linewidth": 5.0})
+
+plt.xlabel("Drift")
+plt.ylabel("Precision")
+plt.title("Drift vs Precision – Micro (green/blue), Full (red/orange)")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.savefig(os.path.join(PATH_OUTPUT_GRAPHS_COMPARISON, "combined_features_drift_vs_precision.png"))
+plt.show()
+plt.close()
+
+# ---- All features and mean drift vs recall ----
+plt.figure(figsize=(10, 6))
+
+# Micro feature
+for feature in FRAUD_FEATURES:
+    sns.regplot(x=micro_feature_drift[feature], y=recall, lowess=True, scatter=False, color="green")
+
+# Full features
+for feature in FRAUD_FEATURES:
+    sns.regplot(x=full_feature_drift[feature], y=recall, lowess=True, scatter=False, color="red")
+
+# Mean drift
+sns.regplot(x=micro_drift["Mean drift"], y=recall, lowess=True, scatter=False, color="blue",
+            label="Micro Mean Drift", line_kws={"linewidth": 5.0})
+sns.regplot(x=full_drift["Mean drift"], y=recall, lowess=True, scatter=False, color="orange",
+            label="Full Mean Drift", line_kws={"linewidth": 5.0})
+
+plt.xlabel("Drift")
+plt.ylabel("Recall")
+plt.title("Drift vs Recall – Micro (green/blue), Full (red/orange)")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.savefig(os.path.join(PATH_OUTPUT_GRAPHS_COMPARISON, "combined_features_drift_vs_recall.png"))
+plt.show()
+plt.close()
+
+
+
+# Smooth the features drifting and performance values
+micro_smoothed = micro_batch_features_drifing_per_chunk["Features drifting"].rolling(window=5, center=True).mean()
+full_smoothed = full_batch_features_drifing_per_chunk["Features drifting"].rolling(window=5, center=True).mean()
+recall_smoothed = recall.rolling(window=5, center=True).mean()
+precision_smoothed = precision.rolling(window=5, center=True).mean()
 
 # ---- Features Drifting vs Recall per Chunk ----
 fig, ax1 = plt.subplots(figsize=(8, 5))
-ax1.plot(micro_batch_features_drifing_per_chunk["Features drifting"], label="Micro-batch Drifting", marker="o")
-ax1.plot(full_batch_features_drifing_per_chunk["Features drifting"], label="Full-batch Drifting", marker="o", color="orange")
+ax1.plot(micro_smoothed, label="Micro-batch Drifting")
+ax1.plot(full_smoothed, label="Full-batch Drifting", color="orange")
 ax1.set_xlabel("Chunk index")
 ax1.set_ylabel("Features Drifting per Chunk")
 ax1.grid(True)
 ax2 = ax1.twinx()
-ax2.plot(recall, label="Recall", marker="x", color="green")
+ax2.plot(recall_smoothed, label="Recall", color="green")
 ax2.set_ylabel("Recall")
 fig.suptitle("Features Drifting vs Recall per Chunk")
 lines_1, labels_1 = ax1.get_legend_handles_labels()
@@ -153,13 +214,13 @@ plt.close()
 
 # ---- Features Drifting vs Precision per Chunk ----
 fig, ax1 = plt.subplots(figsize=(8, 5))
-ax1.plot(micro_batch_features_drifing_per_chunk["Features drifting"], label="Micro-batch Drifting", marker="o")
-ax1.plot(full_batch_features_drifing_per_chunk["Features drifting"], label="Full-batch Drifting", marker="o", color="orange")
+ax1.plot(micro_batch_features_drifing_per_chunk["Features drifting"], label="Micro-batch Drifting")
+ax1.plot(full_batch_features_drifing_per_chunk["Features drifting"], label="Full-batch Drifting", color="orange")
 ax1.set_xlabel("Chunk index")
 ax1.set_ylabel("Features Drifting per Chunk")
 ax1.grid(True)
 ax2 = ax1.twinx()
-ax2.plot(precision, label="Precision", marker="x", color="green")
+ax2.plot(precision_smoothed, label="Precision", color="green")
 ax2.set_ylabel("Precision")
 fig.suptitle("Features Drifting vs Precision per Chunk")
 lines_1, labels_1 = ax1.get_legend_handles_labels()
