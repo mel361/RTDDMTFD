@@ -90,3 +90,5 @@ jobs:
             ${{ matrix.variant }}/comparison/graphs
             ${{ matrix.variant }}/comparison/micro_batch_tool_statistics
             ${{ matrix.variant }}/comparison/full_batch_tool_statistics
+            ${{ matrix.variant }}/statistics/micro_batch_tool_statistics
+            ${{ matrix.variant }}/statistics/full_batch_tool_statistics
