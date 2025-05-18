@@ -97,7 +97,7 @@ best_threshold = best_f1Score[0]
 
 precision_list = []
 recall_list = []
-sampled_new_data = new_fraud_data
+sampled_new_data = new_fraud_data.head(900000)
 test_simulation_data_X = pd.concat([test_X.tail(TEST_SIZE), sampled_new_data[FRAUD_FEATURES]], ignore_index=True)
 test_simulation_data_y = pd.concat([test_y.tail(TEST_SIZE), sampled_new_data['fraud_bool']], ignore_index=True)
 
