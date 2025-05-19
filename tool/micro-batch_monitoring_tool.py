@@ -111,10 +111,12 @@ for i in range(TEST_ITERATIONS):
                     threshold = feature_data["stattest_threshold"]
                     if threshold is not None:
                         if drift_score > threshold:
-                            time_drift_detected = time.time() - full_timer_start
                             print(f"⚠️ Drift in '{feature_name}': {drift_score:.3f} > threshold {threshold:.3f}")
                             features_drifting += 1
-                            data_drift = True
+                            if not data_drift:
+                                if features_drifting / len(FRAUD_FEATURES) > 0.5:
+                                    time_drift_detected = time.time() - full_timer_start
+                                    data_drift = True
 
 
         if not data_drift:
