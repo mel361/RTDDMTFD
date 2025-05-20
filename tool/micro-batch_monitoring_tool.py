@@ -53,6 +53,8 @@ for i in range(TEST_ITERATIONS):
     iteration_times = []
     per_chunk_drift = []
     per_feature_chunk_drift = {feature: [] for feature in FRAUD_FEATURES}
+
+    data_drift = False
     # Simulate real-time data drift monitoring
     for j in range(0, len(test_X), chunk_size):
         iteration_time = time.time()
@@ -89,9 +91,8 @@ for i in range(TEST_ITERATIONS):
         # Get the report
         result_micro_batch = report.as_dict()
 
-
         chunk_drift_scores = []
-        data_drift = False
+
         print(FRAUD_FEATURES)
         # set constant drift to 0
         for const_feature in constant_cols:
