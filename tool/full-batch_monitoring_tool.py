@@ -221,6 +221,36 @@ for feature in FRAUD_FEATURES:
         statistic_test_results["Recall significant?"].append("No")
         statistic_test_results["Recall correlation type"].append("Not significant")
 
+statistic_test_results["Name"].append("Full-batch features_drifting")
+corr, pval, test_name = statistic_tests.correlation_test(precision_list, total_features_drifting_list, "precision",
+                                                         "full-batch features_drifting")
+statistic_test_results["Precision p-value"].append(pval)
+statistic_test_results["Precision correlation"].append(corr)
+statistic_test_results["Precision test name"].append(test_name)
+if pval < 0.05:
+    statistic_test_results["Precision significant?"].append("Yes")
+    if corr > 0:
+        statistic_test_results["Precision correlation type"].append("Positive")
+    else:
+        statistic_test_results["Precision correlation type"].append("Negative")
+else:
+    statistic_test_results["Precision significant?"].append("No")
+    statistic_test_results["Precision correlation type"].append("Not significant")
+
+corr, pval, test_name = statistic_tests.correlation_test(recall_list, total_features_drifting_list, "recall",
+                                                         "full-batch features_drifting")
+statistic_test_results["Recall p-value"].append(pval)
+statistic_test_results["Recall correlation"].append(corr)
+statistic_test_results["Recall test name"].append(test_name)
+if pval < 0.05:
+    statistic_test_results["Recall significant?"].append("Yes")
+    if corr > 0:
+        statistic_test_results["Recall correlation type"].append("Positive")
+    else:
+        statistic_test_results["Recall correlation type"].append("Negative")
+else:
+    statistic_test_results["Recall significant?"].append("No")
+    statistic_test_results["Recall correlation type"].append("Not significant")
 
 
 # Save the drift values for each feature
