@@ -117,6 +117,7 @@ for i in range(TEST_ITERATIONS):
                             if not data_drift:
                                 if features_drifting / len(FRAUD_FEATURES) > 0.5:
                                     time_drift_detected = time.time() - full_timer_start
+                                    drift_start_id = n
                                     data_drift = True
 
 
