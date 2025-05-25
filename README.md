@@ -2,7 +2,7 @@
 This project develops and evaluates two monitoring tools for Machine Learning models used in fraud detection, one using **full-batch** approach and one using **micro-batch** approach to approximate **real-time monitoring**.  
 The project uses the **Evidently AI** framework and Random Forest models to detect **data drift** in transaction streams.
 
-# Project information
+# The Artifact
 
 ## Features
 - Full-batch and micro-batch drift monitoring of fraud detection models
@@ -45,7 +45,7 @@ The tool simulates real-time monitoring using batch and micro-batch processing:
 - Results är visualized by graphs.
 
 
-# Reproduction instructions
+# Reproduction Instructions
 ## Installation
 Clone the repository:
 ```bash
