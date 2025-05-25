@@ -1,0 +1,6 @@
+Variant,Micro Normal?,Full Normal?,Shapiro Micro p,Shapiro Full p,Test Used,Statistical p-value,Significant?,Micro Faster?,Micro Mean,Micro Std,Micro Median,Micro Min,Micro Max,Micro n,Full Mean,Full Std,Full Median,Full Min,Full Max,Full n
+VariantI,No,Yes,0.0099,0.4316,Mann-Whitney U,0.0,Yes,Yes,25.7978,0.2771,25.6879,25.4825,26.3404,20,58.2378,0.1902,58.28,57.7731,58.5621,20
+VariantII,Yes,Yes,0.5136,0.2584,T-test,0.0,Yes,Yes,26.4459,0.4351,26.4828,25.7156,27.1612,20,59.2053,0.6779,59.0832,58.2981,60.6283,20
+VariantIII,Yes,No,0.2994,0.0378,Mann-Whitney U,0.0,Yes,Yes,25.6747,0.1244,25.6741,25.4591,26.0176,20,58.5982,0.4954,58.4038,57.981,59.7379,20
+VariantIV,Yes,No,0.4157,0.0053,Mann-Whitney U,0.0,Yes,Yes,26.595,0.4568,26.5894,25.7006,27.2873,20,58.9271,1.1113,58.7365,57.6645,62.3279,20
+VariantV,Yes,Yes,0.7043,0.2495,T-test,0.0,Yes,Yes,26.5183,0.1785,26.4912,26.2366,26.9644,20,69.6055,0.2884,69.5235,69.1684,70.1594,20

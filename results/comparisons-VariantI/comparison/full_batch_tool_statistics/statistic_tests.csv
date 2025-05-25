@@ -1,0 +1,15 @@
+Name,Precision test name,Precision p-value,Precision significant?,Precision correlation,Precision correlation type,Recall test name,Recall p-value,Recall significant?,Recall correlation,Recall correlation type
+full-batch mean,Spearman Rank Correlation Test,0.06766616457402096,No,-0.15953655584296647,Not significant,Spearman Rank Correlation Test,0.00422490261747099,Yes,-0.2474744842118648,Negative
+name_email_similarity,Spearman Rank Correlation Test,0.8487568919155805,No,0.016756934443907273,Not significant,Spearman Rank Correlation Test,0.00012415984179811064,Yes,0.32787094857803395,Positive
+prev_address_months_count,Spearman Rank Correlation Test,0.2158385414113284,No,0.10843873270450037,Not significant,Spearman Rank Correlation Test,0.12964861158935384,No,0.1325843753418785,Not significant
+current_address_months_count,Spearman Rank Correlation Test,0.5450531023593337,No,0.053143197045366825,Not significant,Spearman Rank Correlation Test,0.0016144487532692416,Yes,0.2718556284436302,Positive
+days_since_request,Spearman Rank Correlation Test,0.9063841169546349,No,0.010333834241369563,Not significant,Spearman Rank Correlation Test,0.5521352544572127,No,0.052211392013492716,Not significant
+intended_balcon_amount,Spearman Rank Correlation Test,0.37561226114039126,No,-0.0777398618339637,Not significant,Spearman Rank Correlation Test,0.22861250483805926,No,-0.10550030276082374,Not significant
+zip_count_4w,Spearman Rank Correlation Test,0.01681390003102141,Yes,-0.2077880742206817,Negative,Spearman Rank Correlation Test,1.1726487181780187e-06,Yes,-0.4083222020323644,Negative
+velocity_6h,Spearman Rank Correlation Test,0.06829633743346887,No,-0.1591765282930273,Not significant,Spearman Rank Correlation Test,0.006351252928510197,Yes,-0.23640708840328814,Negative
+velocity_24h,Spearman Rank Correlation Test,0.05682870991363709,No,-0.16620228330741968,Not significant,Spearman Rank Correlation Test,0.009852923253912623,Yes,-0.2239125672983203,Negative
+velocity_4w,Spearman Rank Correlation Test,0.012616296493657607,Yes,-0.21658787803187574,Negative,Spearman Rank Correlation Test,3.402622584034976e-05,Yes,-0.35245559513725555,Negative
+bank_branch_count_8w,Spearman Rank Correlation Test,0.029335175814789994,Yes,-0.18973190992264616,Negative,Spearman Rank Correlation Test,0.0004023058578479564,Yes,-0.30357851048900586,Negative
+credit_risk_score,Spearman Rank Correlation Test,0.09687781844106945,No,-0.1451145826830849,Not significant,Spearman Rank Correlation Test,0.07223809321627485,No,-0.156983782603031,Not significant
+session_length_in_minutes,Spearman Rank Correlation Test,0.632951225604274,No,0.04194842735849058,Not significant,Spearman Rank Correlation Test,0.42763635016872836,No,0.06962127702778598,Not significant
+Full-batch features_drifting,Spearman Rank Correlation Test,0.43047974279355594,No,-0.06919471240121991,Not significant,Spearman Rank Correlation Test,0.8401970441680535,No,-0.01771777504150492,Not significant
