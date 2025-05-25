@@ -44,6 +44,8 @@ The tool simulates real-time monitoring using batch and micro-batch processing:
 - Performance (precision and recall) is correlated to overall detected drift over time aswell as feature-wise.
 - Results är visualized by graphs.
 
+## Results
+The results of this experiment can be found under the results directory at the main branch.
 
 # Reproduction Instructions
 ## Installation
